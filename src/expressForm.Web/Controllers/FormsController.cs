@@ -73,20 +73,27 @@ namespace expressForm.Web.Controllers
             {
                 return NotFound();
             }
-            return View(form);
+            return View(new FormViewModel
+            {
+                Id = form.Id,
+                Title = form.Title,
+                Description = form.Description
+            });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description")] Form form)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description")] FormViewModel viewModel)
         {
-            if (id != form.Id)
+            if (id != viewModel.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
+                var form = new Form(viewModel.Title, viewModel.Description);
+
                 try
                 {
                     _context.Update(form);
@@ -94,7 +101,7 @@ namespace expressForm.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FormExists(form.Id))
+                    if (!FormExists(id))
                     {
                         return NotFound();
                     }
@@ -105,12 +112,11 @@ namespace expressForm.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(form);
+            return View();
         }
         #endregion
 
         #region Delete
-        // GET: Forms/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -119,7 +125,7 @@ namespace expressForm.Web.Controllers
             }
 
             var form = await _context.Forms
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(form => form.Id == id);
             if (form == null)
             {
                 return NotFound();
@@ -128,7 +134,6 @@ namespace expressForm.Web.Controllers
             return View(form);
         }
 
-        // POST: Forms/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -137,12 +142,12 @@ namespace expressForm.Web.Controllers
             _context.Forms.Remove(form);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        } 
+        }
         #endregion
 
         private bool FormExists(int id)
         {
-            return _context.Forms.Any(e => e.Id == id);
+            return _context.Forms.Any(form => form.Id == id);
         }
     }
 }
