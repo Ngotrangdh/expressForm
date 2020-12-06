@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AE04C292-76F8-4356-A887-DE6F53043CEE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CB089369-B8CF-4ACE-B228-F93FDF41F5EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "expressForm.Web", "src\expressForm.Web\expressForm.Web.csproj", "{592E630F-9628-42FB-BD8A-A0EEB72E8F43}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{592E630F-9628-42FB-BD8A-A0EEB72E8F43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{592E630F-9628-42FB-BD8A-A0EEB72E8F43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{592E630F-9628-42FB-BD8A-A0EEB72E8F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{592E630F-9628-42FB-BD8A-A0EEB72E8F43}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{592E630F-9628-42FB-BD8A-A0EEB72E8F43} = {AE04C292-76F8-4356-A887-DE6F53043CEE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {82F465BE-A45E-4805-8AEC-3C277C86D7A0}
+	EndGlobalSection
+EndGlobal
