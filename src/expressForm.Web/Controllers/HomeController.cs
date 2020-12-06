@@ -1,4 +1,4 @@
-﻿using expressForm.Web.Models;
+﻿using expressForm.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

@@ -1,6 +1,6 @@
 using System;
 
-namespace expressForm.Web.Models
+namespace expressForm.Web.ViewModels
 {
     public class ErrorViewModel
     {
