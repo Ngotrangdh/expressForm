@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\expressForm.Core\expressForm.Core.csproj" />
+    <ProjectReference Include="..\expressForm.Infrastructure\expressForm.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

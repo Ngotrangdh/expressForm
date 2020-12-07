@@ -1,3 +1,4 @@
+using expressForm.Infrastructure.Repositories;
 using expressForm.Web.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,6 +36,8 @@ namespace expressForm.Web
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+            services.AddSingleton<IFormRepository, FormRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

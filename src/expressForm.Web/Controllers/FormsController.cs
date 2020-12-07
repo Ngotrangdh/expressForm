@@ -1,8 +1,11 @@
 ﻿using expressForm.Core.Form;
+using expressForm.Infrastructure.Repositories;
 using expressForm.Web.Data;
 using expressForm.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,15 +14,19 @@ namespace expressForm.Web.Controllers
     public class FormsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IFormRepository _repository;
 
-        public FormsController(ApplicationDbContext context)
+        public FormsController(ApplicationDbContext context, IFormRepository repository)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Forms.ToListAsync());
+            IEnumerable<Form> forms = await _repository.GetAllAsync();
+            return View(forms);
+            //return View(await _context.Forms.ToListAsync());
         }
 
         public async Task<IActionResult> Details(int? id)
