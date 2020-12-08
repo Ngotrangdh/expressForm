@@ -1,4 +1,5 @@
 ﻿using expressForm.Core.Forms;
+using expressForm.Shared.Utilities.Extensions;
 using expressForm.Web.Data;
 using expressForm.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +55,7 @@ namespace expressForm.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var form = new Form(viewModel.Title, viewModel.Description);
+                var form = new Form(viewModel.Title, viewModel.Description.ToStringOrEmpty());
                 _repository.Add(form);
                 await _repository.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

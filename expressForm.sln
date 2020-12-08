@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "expressForm.Web", "src\expr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "expressForm.Core", "src\expressForm.Core\expressForm.Core.csproj", "{8A484E04-83D1-481C-86C3-8F8EE6F48377}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "expressForm.Infrastructure", "src\expressForm.Infrastructure\expressForm.Infrastructure.csproj", "{052B3C95-4090-4F04-9763-490221B04717}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "expressForm.Infrastructure", "src\expressForm.Infrastructure\expressForm.Infrastructure.csproj", "{052B3C95-4090-4F04-9763-490221B04717}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "expressForm.Shared", "src\expressForm.Shared\expressForm.Shared.csproj", "{6660A5DD-E0C0-4C05-8D2A-6CFFCD9FC21E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{052B3C95-4090-4F04-9763-490221B04717}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{052B3C95-4090-4F04-9763-490221B04717}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{052B3C95-4090-4F04-9763-490221B04717}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6660A5DD-E0C0-4C05-8D2A-6CFFCD9FC21E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6660A5DD-E0C0-4C05-8D2A-6CFFCD9FC21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6660A5DD-E0C0-4C05-8D2A-6CFFCD9FC21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6660A5DD-E0C0-4C05-8D2A-6CFFCD9FC21E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
