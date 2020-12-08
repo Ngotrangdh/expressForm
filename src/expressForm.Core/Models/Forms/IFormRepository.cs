@@ -15,5 +15,6 @@ namespace expressForm.Core.Forms
         Task<IEnumerable<Form>> GetAllAsync();
         Task SaveChangesAsync();
         Form Update(Form form);
+        bool Any(int id);
     }
 }

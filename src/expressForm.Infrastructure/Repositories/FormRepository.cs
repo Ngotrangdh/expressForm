@@ -58,5 +58,10 @@ namespace expressForm.Infrastructure.Repositories
             var form = _context.Forms.Single(form => form.Id == id);
             return _context.Remove(form).Entity;
         }
+
+        public bool Any(int id)
+        {
+            return _context.Forms.Any(form => form.Id == id);
+        }
     }
 }

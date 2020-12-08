@@ -13,12 +13,10 @@ namespace expressForm.Web.Controllers
 {
     public class FormsController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IFormRepository _repository;
 
-        public FormsController(ApplicationDbContext context, IFormRepository repository)
+        public FormsController(IFormRepository repository)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
@@ -98,7 +96,7 @@ namespace expressForm.Web.Controllers
             {
                 try
                 {
-                    var form = new Form(id, viewModel.Title, viewModel.Description);
+                    var form = new Form(id, viewModel.Title, viewModel.Description.ToStringOrEmpty());
                     _repository.Update(form);
                     await _repository.SaveChangesAsync();
                 }
@@ -148,7 +146,7 @@ namespace expressForm.Web.Controllers
 
         private bool FormExists(int id)
         {
-            return _context.Forms.Any(form => form.Id == id);
+            return _repository.Any(id);
         }
     }
 }
