@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace expressForm.Core.Form
+namespace expressForm.Core.Forms
 {
     public class Form
     {

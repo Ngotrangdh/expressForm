@@ -1,12 +1,12 @@
-﻿using expressForm.Core.Form;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace expressForm.Infrastructure.Repositories
+namespace expressForm.Core.Forms
 {
-    public interface IFormRepository
+     public interface IFormRepository
     {
         Form Add(Form form);
         Form Delete(int id);

@@ -1,4 +1,4 @@
-﻿using expressForm.Core.Form;
+﻿using expressForm.Core.Forms;
 using Microsoft.EntityFrameworkCore;
 
 namespace expressForm.Infrastructure
