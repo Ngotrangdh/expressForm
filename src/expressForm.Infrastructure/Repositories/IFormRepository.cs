@@ -9,11 +9,11 @@ namespace expressForm.Infrastructure.Repositories
     public interface IFormRepository
     {
         Form Add(Form form);
-        Form Delete(Form form);
-        IEnumerable<Form> Find(Expression<Func<Form, bool>> predicate);
+        Form Delete(int id);
+        Task<Form> FindAsync(Expression<Func<Form, bool>> predicate);
         Form Get(int id);
         Task<IEnumerable<Form>> GetAllAsync();
-        void SaveChanges();
+        Task SaveChangesAsync();
         Form Update(Form form);
     }
 }
