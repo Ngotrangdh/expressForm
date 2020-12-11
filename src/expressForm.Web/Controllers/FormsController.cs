@@ -1,24 +1,20 @@
-﻿using expressForm.Core.Form;
-using expressForm.Infrastructure.Repositories;
-using expressForm.Web.Data;
+﻿using expressForm.Core.Forms;
+using expressForm.Shared.Utilities.Extensions;
 using expressForm.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace expressForm.Web.Controllers
 {
     public class FormsController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IFormRepository _repository;
 
-        public FormsController(ApplicationDbContext context, IFormRepository repository)
+        public FormsController(IFormRepository repository)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
@@ -26,7 +22,6 @@ namespace expressForm.Web.Controllers
         {
             IEnumerable<Form> forms = await _repository.GetAllAsync();
             return View(forms);
-            //return View(await _context.Forms.ToListAsync());
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -36,13 +31,11 @@ namespace expressForm.Web.Controllers
                 return NotFound();
             }
 
-            var form = await _context.Forms
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var form = await _repository.FindAsync(id.Value);
             if (form == null)
             {
                 return NotFound();
             }
-
             return View(form);
         }
 
@@ -58,9 +51,9 @@ namespace expressForm.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var form = new Form(viewModel.Title, viewModel.Description);
-                _context.Add(form);
-                await _context.SaveChangesAsync();
+                var form = new Form(viewModel.Title, viewModel.Description.ToStringOrEmpty());
+                _repository.Add(form);
+                await _repository.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View();
@@ -75,7 +68,7 @@ namespace expressForm.Web.Controllers
                 return NotFound();
             }
 
-            var form = await _context.Forms.FindAsync(id);
+            var form = await _repository.FindAsync(id.Value);
             if (form == null)
             {
                 return NotFound();
@@ -99,16 +92,15 @@ namespace expressForm.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                var form = new Form(viewModel.Title, viewModel.Description);
-
                 try
                 {
-                    _context.Update(form);
-                    await _context.SaveChangesAsync();
+                    var form = new Form(id, viewModel.Title, viewModel.Description.ToStringOrEmpty());
+                    _repository.Update(form);
+                    await _repository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FormExists(id))
+                    if (!await FormExistsAsync(id))
                     {
                         return NotFound();
                     }
@@ -131,8 +123,7 @@ namespace expressForm.Web.Controllers
                 return NotFound();
             }
 
-            var form = await _context.Forms
-                .FirstOrDefaultAsync(form => form.Id == id);
+            var form = await _repository.FindAsync(id.Value);
             if (form == null)
             {
                 return NotFound();
@@ -145,16 +136,31 @@ namespace expressForm.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var form = await _context.Forms.FindAsync(id);
-            _context.Forms.Remove(form);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _repository.DeleteAsync(id);
+                await _repository.SaveChangesAsync();
+            }
+            catch
+            {
+                if (!await FormExistsAsync(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
             return RedirectToAction(nameof(Index));
         }
         #endregion
 
-        private bool FormExists(int id)
+        private async Task<bool> FormExistsAsync(int id)
         {
-            return _context.Forms.Any(form => form.Id == id);
+            var form = await _repository.FindAsync(id);
+            return form != null;
         }
     }
 }

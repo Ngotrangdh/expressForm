@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "expressForm.Web", "src\expr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "expressForm.Core", "src\expressForm.Core\expressForm.Core.csproj", "{8A484E04-83D1-481C-86C3-8F8EE6F48377}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "expressForm.Infrastructure", "src\expressForm.Infrastructure\expressForm.Infrastructure.csproj", "{052B3C95-4090-4F04-9763-490221B04717}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "expressForm.Infrastructure", "src\expressForm.Infrastructure\expressForm.Infrastructure.csproj", "{052B3C95-4090-4F04-9763-490221B04717}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "expressForm.Shared", "src\expressForm.Shared\expressForm.Shared.csproj", "{6660A5DD-E0C0-4C05-8D2A-6CFFCD9FC21E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "expressForm.UnitTest", "tests\expressForm.UnitTest\expressForm.UnitTest.csproj", "{0FD9E8BC-FFB7-4970-8047-6CE1673786D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +35,14 @@ Global
 		{052B3C95-4090-4F04-9763-490221B04717}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{052B3C95-4090-4F04-9763-490221B04717}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{052B3C95-4090-4F04-9763-490221B04717}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6660A5DD-E0C0-4C05-8D2A-6CFFCD9FC21E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6660A5DD-E0C0-4C05-8D2A-6CFFCD9FC21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6660A5DD-E0C0-4C05-8D2A-6CFFCD9FC21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6660A5DD-E0C0-4C05-8D2A-6CFFCD9FC21E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FD9E8BC-FFB7-4970-8047-6CE1673786D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FD9E8BC-FFB7-4970-8047-6CE1673786D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FD9E8BC-FFB7-4970-8047-6CE1673786D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FD9E8BC-FFB7-4970-8047-6CE1673786D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +51,8 @@ Global
 		{592E630F-9628-42FB-BD8A-A0EEB72E8F43} = {AE04C292-76F8-4356-A887-DE6F53043CEE}
 		{8A484E04-83D1-481C-86C3-8F8EE6F48377} = {AE04C292-76F8-4356-A887-DE6F53043CEE}
 		{052B3C95-4090-4F04-9763-490221B04717} = {AE04C292-76F8-4356-A887-DE6F53043CEE}
+		{6660A5DD-E0C0-4C05-8D2A-6CFFCD9FC21E} = {AE04C292-76F8-4356-A887-DE6F53043CEE}
+		{0FD9E8BC-FFB7-4970-8047-6CE1673786D7} = {CB089369-B8CF-4ACE-B228-F93FDF41F5EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82F465BE-A45E-4805-8AEC-3C277C86D7A0}

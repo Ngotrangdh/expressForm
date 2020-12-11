@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\expressForm.Core\expressForm.Core.csproj" />
     <ProjectReference Include="..\expressForm.Infrastructure\expressForm.Infrastructure.csproj" />
+    <ProjectReference Include="..\expressForm.Shared\expressForm.Shared.csproj" />
   </ItemGroup>
 
 </Project>

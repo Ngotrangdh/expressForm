@@ -1,4 +1,4 @@
-﻿using expressForm.Core.Form;
+﻿using expressForm.Core.Forms;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,10 +1,8 @@
-﻿using expressForm.Core.Form;
+﻿using expressForm.Core.Forms;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace expressForm.Infrastructure.Repositories
@@ -26,9 +24,14 @@ namespace expressForm.Infrastructure.Repositories
             return _context.Add(form).Entity;
         }
 
-        public Form Get(int id)
+        public Task<Form> FindAsync(int id)
         {
-            return _context.Find<Form>(id);
+            return FindAsync(form => form.Id == id);
+        }
+
+        private async Task<Form> FindAsync(Expression<Func<Form, bool>> predicate)
+        {
+            return await _context.Forms.SingleOrDefaultAsync(predicate);
         }
 
         public async Task<IEnumerable<Form>> GetAllAsync()
@@ -41,20 +44,14 @@ namespace expressForm.Infrastructure.Repositories
             return _context.Update(form).Entity;
         }
 
-        public void SaveChanges()
+        public async Task SaveChangesAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<Form> Find(Expression<Func<Form, bool>> predicate)
+        public async Task<Form> DeleteAsync(int id)
         {
-            return _context.Set<Form>()
-                .AsQueryable()
-                .Where(predicate).ToList();
-        }
-
-        public Form Delete(Form form)
-        {
+            var form = await FindAsync(id);
             return _context.Remove(form).Entity;
         }
     }

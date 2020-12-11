@@ -1,3 +1,4 @@
+using expressForm.Core.Forms;
 using expressForm.Infrastructure.Repositories;
 using expressForm.Web.Data;
 using Microsoft.AspNetCore.Builder;
@@ -37,7 +38,7 @@ namespace expressForm.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
 
-            services.AddSingleton<IFormRepository, FormRepository>();
+            services.AddTransient<IFormRepository, FormRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
