@@ -174,6 +174,11 @@ namespace expressForm.Web.Controllers
             return View(form);
         }
 
+        public async Task<IActionResult> Share()
+        {
+            return View();
+        }
+
         private async Task<bool> FormExistsAsync(int id)
         {
             var form = await _repository.FindAsync(id);

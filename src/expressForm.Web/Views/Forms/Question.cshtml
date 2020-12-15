@@ -7,8 +7,17 @@
     <h2>@ViewData["Title"]</h2>
 </div>
 
-<h3>@Model.Title</h3>
-<p>@Model.Description</p>
+<div class="row">
+    <div class="col-md-10">
+        <h3>@Model.Title</h3>
+        <p>@Model.Description</p>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-success">Preview</button>
+        <button class="btn btn-info">Send</button>
+    </div>
+</div>
+
 <hr />
 
 <div class="row">
