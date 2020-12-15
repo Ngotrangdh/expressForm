@@ -1,0 +1,72 @@
+﻿@model expressForm.Core.Forms.Form;
+
+@{
+    ViewData["Title"] = "Question";
+}
+<div class="row bg-light justify-content-center">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<h3>@Model.Title</h3>
+<p>@Model.Description</p>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <ul class="list-group">
+            <li class="list-group-item">First Question</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Morbi leo risus</li>
+            <li class="list-group-item">Porta ac consectetur ac</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+    </div>
+    <div class="col-md-6 bg-light p-3">
+        <button class="close pb-3" aria-label="Close" data-toggle="tooltip" data-placement="top" title="Delete">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <form>
+            <div class="form-group">
+                <input class="form-control" type="text" id="" placeholder="Question" />
+            </div>
+            <ul>
+                <li>
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="" placeholder="Option" />
+                    </div>
+                </li>
+                <li>
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="" placeholder="Another Option" />
+                    </div>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div class="col-md-2">
+        <form>
+            <div class="form-group">
+                <select class="form-control" id="FormType">
+                    <option value="ShortAnswer">Short Answer</option>
+                    <option value="Paragraph">Paragraph</option>
+                    <option value="MultipleChoice">Multiple Choice</option>
+                    <option value="Checkboxes">Checkboxes</option>
+                    <option value="Dropdown">Dropdown</option>
+                    <option value="Date">Date</option>
+                </select>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" name="required" value="" id="formRequired" />
+                <label class="form-check-label" for="formRequired">Required</label>
+            </div>
+        </form>
+    </div>
+</div>
+<hr />
+<div class="text-center">
+    <a asp-action="Question">Add Question</a>
+</div>
+
+
+
+
