@@ -1,3 +1,14 @@
 ﻿@{
-    Layout = "_Layout";
+    var controller = Context.Request.RouteValues["Controller"].ToString();
+    var action = Context.Request.RouteValues["action"].ToString();
+    if (string.Equals(controller, "Forms", StringComparison.OrdinalIgnoreCase) &&
+        string.Equals(action, "Questions", StringComparison.OrdinalIgnoreCase))
+    {
+        Layout = "_FormLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+
 }

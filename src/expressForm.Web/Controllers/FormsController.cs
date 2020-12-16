@@ -157,7 +157,7 @@ namespace expressForm.Web.Controllers
         }
         #endregion
 
-        public async Task<IActionResult> Question(int? formId)
+        public async Task<IActionResult> Questions(int? formId)
         {
             if (formId == null)
             {
