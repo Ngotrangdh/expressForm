@@ -54,7 +54,7 @@ namespace expressForm.Web.Controllers
                 var form = new Form(viewModel.Title, viewModel.Description.ToStringOrEmpty());
                 _repository.Add(form);
                 await _repository.SaveChangesAsync();
-                return RedirectToAction(nameof(Question), new { id = form.Id});
+                return RedirectToAction(nameof(Question), new { formId = form.Id});
             }
             return View();
         }
@@ -157,14 +157,14 @@ namespace expressForm.Web.Controllers
         }
         #endregion
 
-        public async Task<IActionResult> Question(int? id)
+        public async Task<IActionResult> Question(int? formId)
         {
-            if (id == null)
+            if (formId == null)
             {
                 return NotFound();
             }
 
-            var form = await _repository.FindAsync((int)id);
+            var form = await _repository.FindAsync((int)formId);
 
             if (form == null)
             {
@@ -174,7 +174,7 @@ namespace expressForm.Web.Controllers
             return View(form);
         }
 
-        public async Task<IActionResult> Share()
+        public IActionResult Share()
         {
             return View();
         }
