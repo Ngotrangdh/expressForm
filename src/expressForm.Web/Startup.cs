@@ -66,9 +66,9 @@ namespace expressForm.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "question",
+                    name: "questions",
                     pattern: "Forms/{formId}/Questions/{questionId?}",
-                    defaults: new { controller = "forms", action = "questions" }
+                    defaults: new { controller = "questions", Action = "index"}
                     );
 
                 endpoints.MapControllerRoute(

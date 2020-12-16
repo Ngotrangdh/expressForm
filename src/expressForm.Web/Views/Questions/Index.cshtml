@@ -1,4 +1,4 @@
-﻿@model expressForm.Core.Forms.Form;
+﻿@model expressForm.Web.Controllers.FormQuestionViewModel;
 
 @{
     ViewData["Title"] = "Question";
@@ -9,8 +9,8 @@
 
 <div class="row">
     <div class="col-md-10">
-        <h3>@Model.Title</h3>
-        <p>@Model.Description</p>
+        <h3>@Model.Form.Title</h3>
+        <p>@Model.Form.Description</p>
     </div>
     <div class="col-md-2">
         <button class="btn btn-success">Preview</button>
@@ -23,11 +23,10 @@
 <div class="row">
     <div class="col-md-4">
         <ul class="list-group">
-            <li class="list-group-item">First Question</li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Morbi leo risus</li>
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
+            @foreach (var question in @Model.Questions)
+            {
+                <li class="list-group-item">@question.Title</li>
+            }
         </ul>
     </div>
     <div class="col-md-6 bg-light p-3">
