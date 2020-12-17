@@ -1,5 +1,6 @@
-﻿
-@{
+﻿@model expressForm.Web.Controllers.FormShareViewModel;
+
+@{ 
     ViewData["Title"] = "Share";
 }
 
@@ -7,10 +8,10 @@
 
 <div class="row">
     <div class="col-md-6">
-        <h4>Link</h4>
-        <input class="form-control" type="text" placeholder="https://getbootstrap.com/docs/4.0/components/forms/" readonly />
-        <button class="btn btn-primary">Copy</button>
-        <br />
+        <h4>@Model.Title</h4>
+        <input class="form-control" type="text" placeholder="@Model.Link" readonly />
+        <button class="btn btn-primary mt-4">Copy</button>
+        <hr />
         <h4>Email</h4>
         <form>
             <div class="form-group">

@@ -8,13 +8,9 @@
 </div>
 
 <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-12">
         <h3>@Model.Form.Title</h3>
         <p>@Model.Form.Description</p>
-    </div>
-    <div class="col-md-2">
-        <button class="btn btn-success">Preview</button>
-        <button class="btn btn-info">Send</button>
     </div>
 </div>
 
@@ -30,9 +26,6 @@
         </ul>
     </div>
     <div class="col-md-6 bg-light p-3">
-        <button class="close pb-3" aria-label="Close" data-toggle="tooltip" data-placement="top" title="Delete">
-            <span aria-hidden="true">&times;</span>
-        </button>
         <form>
             <div class="form-group">
                 <input class="form-control" type="text" id="" placeholder="Question" />
@@ -49,6 +42,8 @@
                     </div>
                 </li>
             </ul>
+            <button class="btn btn-primary">Save</button>
+            <button class="btn btn-secondary">Cancel</button>
         </form>
     </div>
     <div class="col-md-2">
