@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace expressForm.Core.Forms
+namespace expressForm.Core.Models.Forms
 {
     public interface IFormRepository
     {
