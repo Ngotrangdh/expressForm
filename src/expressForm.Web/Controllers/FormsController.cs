@@ -54,7 +54,7 @@ namespace expressForm.Web.Controllers
                 var form = new Form(viewModel.Title, viewModel.Description.ToStringOrEmpty());
                 _repository.Add(form);
                 await _repository.SaveChangesAsync();
-                return RedirectToRoute("questions", new { formId = form.Id});
+                return RedirectToRoute("questions", new { formId = form.Id });
             }
             return View();
         }

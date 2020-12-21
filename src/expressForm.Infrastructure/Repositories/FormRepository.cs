@@ -11,9 +11,6 @@ namespace expressForm.Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _context;
 
-        public FormRepository() : this(new ApplicationDbContext())
-        { }
-
         public FormRepository(ApplicationDbContext context)
         {
             _context = context;

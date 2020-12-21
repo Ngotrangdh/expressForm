@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\expressForm.Core\expressForm.Core.csproj" />
     <ProjectReference Include="..\..\src\expressForm.Shared\expressForm.Shared.csproj" />
     <ProjectReference Include="..\..\src\expressForm.Web\expressForm.Web.csproj" />
   </ItemGroup>

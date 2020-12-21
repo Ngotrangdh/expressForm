@@ -1,10 +1,8 @@
 using expressForm.Core.Models.Forms;
+using expressForm.Infrastructure;
 using expressForm.Infrastructure.Repositories;
-using expressForm.Web.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,16 +21,9 @@ namespace expressForm.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDatabaseDeveloperPageExceptionFilter();
-
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
-
-            services.AddTransient<IFormRepository, FormRepository>();
+            services.AddScoped<IFormRepository, FormRepository>();
+            services.AddScoped<ApplicationDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,7 +32,6 @@ namespace expressForm.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
             }
             else
             {
@@ -54,7 +44,6 @@ namespace expressForm.Web
 
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -62,13 +51,12 @@ namespace expressForm.Web
                 endpoints.MapControllerRoute(
                     name: "questions",
                     pattern: "Forms/{formId}/Questions/{questionId?}",
-                    defaults: new { controller = "questions", action="Index"}
+                    defaults: new { controller = "questions", action = "Index" }
                     );
 
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
             });
         }
     }
