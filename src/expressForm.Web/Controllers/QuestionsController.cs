@@ -1,45 +1,68 @@
 ﻿using expressForm.Core.Models.Forms;
-using expressForm.Web.ViewModels;
+using expressForm.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace expressForm.Web.Controllers
 {
     public class QuestionsController : Controller
     {
-        public IActionResult Index(int formId)
+        private readonly IFormRepository _formRepository;
+
+        public QuestionsController(IFormRepository formRepository)
         {
-            var questions = new List<Question>()
-            {
-                new Question {Id = 0, Title= "Question 1"},
-                new Question {Id = 1, Title= "Question 2"},
-                new Question {Id = 2, Title= "Question 3"},
-                new Question {Id = 3, Title= "Question 4"},
-                new Question {Id = 4, Title= "Question 5"},
-            };
+            _formRepository = formRepository ?? throw new System.ArgumentNullException(nameof(formRepository));
+        }
+
+        public async Task<IActionResult> Index(int formId)
+        {
+            var form = await _formRepository.FindAsync(formId);
+
+            var questions = form.Questions;
 
             var model = new FormQuestionViewModel
             {
                 Questions = questions,
-                Form = new FormViewModel { Id = formId, Title = "First Form", Description = "Description" }
+                Form = form,
+                HasQuestions = questions != null
             };
 
             return View(model);
         }
-    }
 
-    public class Question
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(int? formId, FormQuestionViewModel viewModel)
+        {
+            if (formId == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var form = await _formRepository.FindAsync(formId.Value);
+                var question = new Question { Text = viewModel.Question.Text };
+                if (form.Questions == null)
+                {
+                    form.Questions = new List<Question>();
+                }
+                form.Questions.Add(question);
+                _formRepository.Update(form);
+                await _formRepository.SaveChangesAsync();
+                return RedirectToAction("Index", new { formId = formId.Value });
+            }
+            return View();
+        }
     }
 
     public class FormQuestionViewModel
     {
         public List<Question> Questions { get; set; }
-        public FormViewModel Form { get; set; }
+        public Form Form { get; set; }
+        public bool HasQuestions { get; set; }
+        public string QuestionText { get; set; }
+        public QuestionViewModel Question { get; set; }
     }
 }

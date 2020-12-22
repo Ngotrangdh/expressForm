@@ -1,4 +1,5 @@
 ﻿@model expressForm.Web.Controllers.FormQuestionViewModel;
+@using expressForm.Core.Models.Forms;
 
 @{
     ViewData["Title"] = "Question";
@@ -19,48 +20,48 @@
 <div class="row">
     <div class="col-md-4">
         <ul class="list-group">
-            @foreach (var question in @Model.Questions)
+            @if (Model.HasQuestions)
             {
-                <li class="list-group-item">@question.Title</li>
+                @foreach (var question in @Model.Questions)
+                {
+                    <li class="list-group-item">@question.Text</li>
+                }
+            }
+            else
+            {
+                <li class="list-group-item">This Form has no questions</li>
             }
         </ul>
     </div>
     <div class="col-md-6 bg-light p-3">
-        <form>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+                    <input class="form-control" asp-for="@Model.QuestionText" />
+                </div>*@
             <div class="form-group">
-                <input class="form-control" type="text" id="" placeholder="Question" />
+                <input class="form-control" asp-for="@Model.Question.Text" />
             </div>
-            <ul>
-                <li>
-                    <div class="form-group">
-                        <input class="form-control" type="text" id="" placeholder="Option" />
-                    </div>
-                </li>
-                <li>
-                    <div class="form-group">
-                        <input class="form-control" type="text" id="" placeholder="Another Option" />
-                    </div>
-                </li>
-            </ul>
-            <button class="btn btn-primary">Save</button>
+            @*<ul>
+                    <li>
+                        <div class="form-group">
+                            <input class="form-control" asp-for="@Model.Question.Options" />
+                        </div>
+                    </li>
+                </ul>*@
+            <button asp-action="Create" asp-route-formId="@Model.Form.Id" class="btn btn-primary">Save</button>
             <button class="btn btn-secondary">Cancel</button>
         </form>
     </div>
     <div class="col-md-2">
         <form>
             <div class="form-group">
-                <select class="form-control" id="FormType">
-                    <option value="ShortAnswer">Short Answer</option>
-                    <option value="Paragraph">Paragraph</option>
-                    <option value="MultipleChoice">Multiple Choice</option>
-                    <option value="Checkboxes">Checkboxes</option>
-                    <option value="Dropdown">Dropdown</option>
-                    <option value="Date">Date</option>
+                <select class="form-control" asp-for="Question.Type" asp-items="@Html.GetEnumSelectList<QuestionType>()">
                 </select>
             </div>
             <div class="form-check">
-                <input type="checkbox" name="required" value="" id="formRequired" />
-                <label class="form-check-label" for="formRequired">Required</label>
+                <input asp-for="@Model.Question.IsRequired" />
+                <label class="form-check-label" asp-for="@Model.Question.IsRequired">Required</label>
             </div>
         </form>
     </div>
