@@ -1,6 +1,6 @@
 ﻿using expressForm.Core.Models.Forms;
 using expressForm.Web.Controllers;
-using expressForm.Web.ViewModels;
+using expressForm.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;

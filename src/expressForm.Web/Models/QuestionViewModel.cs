@@ -7,7 +7,7 @@ namespace expressForm.Web.Models
     public class QuestionViewModel
     {
         public int Id { get; set; }
-        public QuestionType Type { get; set; }
+        public QuestionTypeViewModel Type { get; set; }
 
         [Display(Prompt = "Question")]
         public string Text { get; set; }
@@ -16,7 +16,7 @@ namespace expressForm.Web.Models
         [Display(Prompt = "Option")]
         public string Options { get; set; }
 
-        public Form Form { get; set; }
-        public List<Answer> Answers { get; set; }
+        public FormViewModel Form { get; set; }
+        public IEnumerable<Answer> Answers { get; set; }
     }
 }

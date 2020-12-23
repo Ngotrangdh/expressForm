@@ -1,6 +1,6 @@
 ﻿using expressForm.Core.Models.Forms;
 using expressForm.Shared.Utilities.Extensions;
-using expressForm.Web.ViewModels;
+using expressForm.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;

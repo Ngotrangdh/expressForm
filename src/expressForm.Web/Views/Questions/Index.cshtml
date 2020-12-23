@@ -1,5 +1,5 @@
-﻿@model expressForm.Web.Controllers.FormQuestionViewModel;
-@using expressForm.Web.Models;
+﻿@model expressForm.Web.Controllers.FormQuestionViewModel
+@using expressForm.Web.Models
 
 @{
     ViewData["Title"] = "Question";
@@ -9,12 +9,35 @@
     <script type="text/javascript" src="~/js/site.js"></script>
 }
 
+@{ 
+    string formId = null;
+    string questionId = null;
+    if (Context.Request.RouteValues["formId"] == null)
+    {
+        formId = Model.Form.Id.ToString();
+    }
+    else
+    {
+
+        formId = Context.Request.RouteValues["formId"].ToString();
+    }
+
+    if (Context.Request.RouteValues["questionId"] == null)
+    {
+        questionId= Model.Question.Id.ToString();
+    }
+    else
+    {
+        questionId = Context.Request.RouteValues["questionId"].ToString();
+    }
+}
+
 @{
     var routeValues = new Dictionary<string, string>()
-                   {
-                                {"formId", Model.Form.Id.ToString() },
-                                {"questionId", (Model.Question == null)?"0":Model.Question.Id.ToString() }
-                            };
+{
+                                {"formId", formId },
+                                {"questionId", Model.Question.Id.ToString() }
+};
 }
 
 <div class="row bg-light justify-content-center">
