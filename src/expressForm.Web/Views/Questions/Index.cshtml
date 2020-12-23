@@ -1,9 +1,22 @@
 ﻿@model expressForm.Web.Controllers.FormQuestionViewModel;
-@using expressForm.Core.Models.Forms;
+@using expressForm.Web.Models;
 
 @{
     ViewData["Title"] = "Question";
 }
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/site.js"></script>
+}
+
+@{
+    var routeValues = new Dictionary<string, string>()
+                   {
+                                {"formId", Model.Form.Id.ToString() },
+                                {"questionId", (Model.Question == null)?"0":Model.Question.Id.ToString() }
+                            };
+}
+
 <div class="row bg-light justify-content-center">
     <h2>@ViewData["Title"]</h2>
 </div>
@@ -34,11 +47,8 @@
         </ul>
     </div>
     <div class="col-md-6 bg-light p-3">
-        <form asp-action="Create">
+        <form asp-action="Create" asp-all-route-data="routeValues">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="form-group">
-                    <input class="form-control" asp-for="@Model.QuestionText" />
-                </div>*@
             <div class="form-group">
                 <input class="form-control" asp-for="@Model.Question.Text" />
             </div>
@@ -49,21 +59,24 @@
                         </div>
                     </li>
                 </ul>*@
-            <button asp-action="Create" asp-route-formId="@Model.Form.Id" class="btn btn-primary">Save</button>
+            <button class="btn btn-primary">Save</button>
             <button class="btn btn-secondary">Cancel</button>
         </form>
     </div>
     <div class="col-md-2">
-        <form>
+        <form asp-action="QuestionTypeChange" id="QuestionTypeForm" asp-all-route-data="routeValues">
             <div class="form-group">
-                <select class="form-control" asp-for="Question.Type" asp-items="@Html.GetEnumSelectList<QuestionType>()">
+                <select class="form-control" asp-for="Question.Type" asp-items="@Html.GetEnumSelectList<QuestionTypeViewModel>()" onchange="QuestionTypeForm.submit()">
                 </select>
             </div>
+        </form>
+        <form asp-action="QuestionRequired" id="QuestionRequired" asp-all-route-data="routeValues">
             <div class="form-check">
-                <input asp-for="@Model.Question.IsRequired" />
+                <input asp-for="@Model.Question.IsRequired" onclick="QuestionRequired.submit()" />
                 <label class="form-check-label" asp-for="@Model.Question.IsRequired">Required</label>
             </div>
         </form>
+
     </div>
 </div>
 <hr />

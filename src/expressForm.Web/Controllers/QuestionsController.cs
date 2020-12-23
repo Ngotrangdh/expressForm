@@ -55,6 +55,31 @@ namespace expressForm.Web.Controllers
             }
             return View();
         }
+
+        public async Task<IActionResult> QuestionTypeChange(int? formId, int? questionId, FormQuestionViewModel viewModel)
+        {
+            if (formId == null)
+            {
+                return NotFound();
+            }
+
+
+            var form = await _formRepository.FindAsync(formId.Value);
+            viewModel.Form = form;
+            return View("Index", viewModel);
+        }
+
+        public async Task<IActionResult> QuestionRequired(int? formId, FormQuestionViewModel viewModel)
+        {
+            if (formId == null)
+            {
+                return NotFound();
+            }
+
+            var form = await _formRepository.FindAsync(formId.Value);
+            viewModel.Form = form;
+            return View("Index", viewModel);
+        }
     }
 
     public class FormQuestionViewModel
@@ -62,7 +87,6 @@ namespace expressForm.Web.Controllers
         public List<Question> Questions { get; set; }
         public Form Form { get; set; }
         public bool HasQuestions { get; set; }
-        public string QuestionText { get; set; }
         public QuestionViewModel Question { get; set; }
     }
 }
