@@ -51,7 +51,9 @@ namespace expressForm.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var form = new Form(viewModel.Title, viewModel.Description.ToStringOrEmpty());
+
+                var form = new Form { Title = viewModel.Title, Description = viewModel.Description.ToStringOrEmpty(), Questions = new List<Question>() };
+                form.Questions.Add(new Question { Text = "First Question", Type = QuestionType.MutipleChoice, IsRequired = false });
                 _repository.Add(form);
                 await _repository.SaveChangesAsync();
                 return RedirectToRoute("questions", new { formId = form.Id });
@@ -94,7 +96,7 @@ namespace expressForm.Web.Controllers
             {
                 try
                 {
-                    var form = new Form(id, viewModel.Title, viewModel.Description.ToStringOrEmpty());
+                    var form = new Form { Id = id, Title = viewModel.Title, Description = viewModel.Description.ToStringOrEmpty() };
                     _repository.Update(form);
                     await _repository.SaveChangesAsync();
                 }

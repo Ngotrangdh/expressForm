@@ -32,23 +32,12 @@ namespace expressForm.Web.Controllers
                 Questions = questions.Select(question => question.ToQuestionViewModel()),
                 Form = form.ToFormViewModel(),
                 HasQuestions = questions != null,
-                Question = new QuestionViewModel { Id = 0, Type = QuestionTypeViewModel.MutipleChoice}
+                Question = questions[1].ToQuestionViewModel()
             };
 
             return View(model);
         }
 
-        //public async Task<IActionResult> Index(int? formId, FormQuestionViewModel viewModel)
-        //{
-        //    if (formId == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-
-        //    return View();
-        //}
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int? formId, FormQuestionViewModel viewModel)
@@ -62,12 +51,12 @@ namespace expressForm.Web.Controllers
             {
                 var form = await _formRepository.FindAsync(formId.Value);
 
-                var question = new Question 
+                var question = new Question
                 {
-                    Text = viewModel.Question.Text, 
+                    Text = viewModel.Question.Text,
                     Options = viewModel.Question.Options,
-                    Type = viewModel.Question.Type.ToQuestionType(), 
-                    IsRequired = viewModel.Question.IsRequired  
+                    Type = viewModel.Question.Type.ToQuestionType(),
+                    IsRequired = viewModel.Question.IsRequired
                 };
 
                 if (form.Questions == null)
@@ -83,13 +72,14 @@ namespace expressForm.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> QuestionTypeChange(int? formId, int? questionId, FormQuestionViewModel viewModel)
+        [HttpPost]
+        public async Task<IActionResult> Edit(int? formId, int? questionId, FormQuestionViewModel viewModel)
         {
             if (formId == null)
             {
                 return NotFound();
             }
-            
+
             var form = await _formRepository.FindAsync(formId.Value);
             if (form == null)
             {
@@ -101,6 +91,8 @@ namespace expressForm.Web.Controllers
             if (question != null)
             {
                 question.Type = viewModel.Question.Type.ToQuestionType();
+                question.IsRequired = viewModel.Question.IsRequired;
+                _formRepository.Update(form);
                 await _formRepository.SaveChangesAsync();
             }
             else
@@ -115,44 +107,82 @@ namespace expressForm.Web.Controllers
                 Questions = form.Questions.Select(question => question.ToQuestionViewModel()),
                 HasQuestions = form.Questions != null
             };
-        
+
             return View("Index", formQuestionViewModel);
         }
 
-        public async Task<IActionResult> QuestionRequired(int? formId, int? questionId, FormQuestionViewModel viewModel)
-        {
-            if (formId == null)
-            {
-                return NotFound();
-            }
 
-            var form = await _formRepository.FindAsync(formId.Value);
-            if (form == null)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> QuestionTypeChange(int? formId, int? questionId, FormQuestionViewModel viewModel)
+        //{
+        //    if (formId == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var question = form.Questions.SingleOrDefault(question => question.Id == questionId);
+        //    var form = await _formRepository.FindAsync(formId.Value);
+        //    if (form == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (question != null)
-            {
-                question.IsRequired = viewModel.Question.IsRequired;
-                await _formRepository.SaveChangesAsync();
-            }
-            else
-            {
-                question = new Question { Id = 0, IsRequired = viewModel.Question.IsRequired };
-            }
+        //    var question = form.Questions.SingleOrDefault(question => question.Id == questionId);
 
-            var formQuestionViewModel = new FormQuestionViewModel
-            {
-                Form = form.ToFormViewModel(),
-                Question = question.ToQuestionViewModel(),
-                Questions = form.Questions.Select(question => question.ToQuestionViewModel()),
-                HasQuestions = form.Questions != null
-            };
-            return View("Index", formQuestionViewModel);
-        }
+        //    if (question != null)
+        //    {
+        //        question.Type = viewModel.Question.Type.ToQuestionType();
+        //        await _formRepository.SaveChangesAsync();
+        //    }
+        //    else
+        //    {
+        //        question = new Question { Id = 0, Type = viewModel.Question.Type.ToQuestionType() };
+        //    }
+
+        //    var formQuestionViewModel = new FormQuestionViewModel
+        //    {
+        //        Form = form.ToFormViewModel(),
+        //        Question = question.ToQuestionViewModel(),
+        //        Questions = form.Questions.Select(question => question.ToQuestionViewModel()),
+        //        HasQuestions = form.Questions != null
+        //    };
+
+        //    return View("Index", formQuestionViewModel);
+        //}
+
+        //public async Task<IActionResult> QuestionRequired(int? formId, int? questionId, FormQuestionViewModel viewModel)
+        //{
+        //    if (formId == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var form = await _formRepository.FindAsync(formId.Value);
+        //    if (form == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var question = form.Questions.SingleOrDefault(question => question.Id == questionId);
+
+        //    if (question != null)
+        //    {
+        //        question.IsRequired = viewModel.Question.IsRequired;
+        //        await _formRepository.SaveChangesAsync();
+        //    }
+        //    else
+        //    {
+        //        question = new Question { Id = 0, IsRequired = viewModel.Question.IsRequired };
+        //    }
+
+        //    var formQuestionViewModel = new FormQuestionViewModel
+        //    {
+        //        Form = form.ToFormViewModel(),
+        //        Question = question.ToQuestionViewModel(),
+        //        Questions = form.Questions.Select(question => question.ToQuestionViewModel()),
+        //        HasQuestions = form.Questions != null
+        //    };
+        //    return View("Index", formQuestionViewModel);
+        //}
     }
 
     public static class QuestionExtension
@@ -194,7 +224,7 @@ namespace expressForm.Web.Controllers
                 questions = new List<Question>();
             }
 
-            var formViewModel =  new FormViewModel
+            var formViewModel = new FormViewModel
             {
                 Id = form.Id,
                 Title = form.Title,

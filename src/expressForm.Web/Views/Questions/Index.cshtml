@@ -87,13 +87,13 @@
         </form>
     </div>
     <div class="col-md-2">
-        <form asp-action="QuestionTypeChange" id="QuestionTypeForm" asp-all-route-data="routeValues">
+        <form asp-action="Edit" id="QuestionTypeForm" asp-all-route-data="routeValues">
             <div class="form-group">
                 <select class="form-control" asp-for="Question.Type" asp-items="@Html.GetEnumSelectList<QuestionTypeViewModel>()" onchange="QuestionTypeForm.submit()">
                 </select>
             </div>
         </form>
-        <form asp-action="QuestionRequired" id="QuestionRequired" asp-all-route-data="routeValues">
+        <form asp-action="Edit" id="QuestionRequired" asp-all-route-data="routeValues">
             <div class="form-check">
                 <input asp-for="@Model.Question.IsRequired" onclick="QuestionRequired.submit()" />
                 <label class="form-check-label" asp-for="@Model.Question.IsRequired">Required</label>
