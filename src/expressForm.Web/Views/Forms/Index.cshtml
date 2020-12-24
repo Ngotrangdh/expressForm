@@ -51,8 +51,7 @@
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                    <a asp-controller="Questions" asp-action="Index" asp-route-formId="@item.Id" asp-route-questionId="0">Questions</a> |
-                    <a asp-controller="Questions" asp-action="Index" asp-route-id="@item.Id">Responses</a> 
+                    <a asp-controller="Questions" asp-action="Edit" asp-route-formId="@item.Id">Questions</a> |
                 </td>
             </tr>
         }

@@ -1,5 +1,6 @@
 ﻿using expressForm.Core.Models.Forms;
 using expressForm.Shared.Utilities.Extensions;
+using expressForm.Web.Extensions;
 using expressForm.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -53,10 +54,9 @@ namespace expressForm.Web.Controllers
             {
 
                 var form = new Form { Title = viewModel.Title, Description = viewModel.Description.ToStringOrEmpty(), Questions = new List<Question>() };
-                form.Questions.Add(new Question { Text = "First Question", Type = QuestionType.MutipleChoice, IsRequired = false });
                 _repository.Add(form);
                 await _repository.SaveChangesAsync();
-                return RedirectToRoute("questions", new { formId = form.Id });
+                return RedirectToRoute("questions", new { formId = form.Id});
             }
             return View();
         }
