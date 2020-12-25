@@ -40,24 +40,27 @@ namespace expressForm.Web.Controllers
 
                 if (question == null)
                 {
-                    question = new Question { Text = "Untitled Question", Type = QuestionType.MutipleChoice };
-                    form.Questions = new List<Question> { question };
-                    _formRepository.Update(form);//need?
-                    await _formRepository.SaveChangesAsync();
+                    question = await AddNewQuestion(form, new List<Question>());
                 }
             }
             else
             {
-                question = form.Questions.SingleOrDefault(question => question.Id == questionId);
-
-                if (question == null)
+                if (questionId == 0)
                 {
-                    return NotFound();
+                    question = await AddNewQuestion(form, form.Questions);
                 }
+                else
+                {
+                    question = form.Questions.SingleOrDefault(question => question.Id == questionId);
 
+                    if (question == null)
+                    {
+                        return NotFound();
+                    }
+                }
             }
 
-           var model = new FormQuestionViewModel
+            var model = new FormQuestionViewModel
             {
                 Form = form.ToViewModel(),
                 Question = question.ToViewModel(),
@@ -66,6 +69,16 @@ namespace expressForm.Web.Controllers
             };
 
             return View("Index", model);
+        }
+
+        private async Task<Question> AddNewQuestion(Form form, List<Question> questions)
+        {
+            Question question = new Question { Text = "Untitled Question", Type = QuestionType.MutipleChoice };
+            questions.Add(question);
+            form.Questions = questions;
+            _formRepository.Update(form);//need?
+            await _formRepository.SaveChangesAsync();
+            return question;
         }
 
         [HttpPost]
@@ -98,6 +111,35 @@ namespace expressForm.Web.Controllers
             };
 
             return View("Index", model);
+        }
+
+        public async Task<IActionResult> Delete(int? formId, int? questionId)
+        {
+            if (formId == null)
+            {
+                return NotFound();
+            }
+
+            var form = await _formRepository.FindAsync(formId.Value);
+
+            if (form == null)
+            {
+                return NotFound();
+            }
+
+            var question = form.Questions.SingleOrDefault(question => question.Id == questionId);
+
+            if (question == null)
+            {
+                return NotFound();
+            }
+
+            form.Questions.Remove(question);
+
+            _formRepository.Update(form);
+            await _formRepository.SaveChangesAsync();
+
+            return RedirectToAction("Edit", new { formId });
         }
     }
 }
