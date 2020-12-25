@@ -7,7 +7,7 @@ namespace expressForm.Web.Extensions
 {
     public static class FormExtension
     {
-        public static FormViewModel ToFormViewModel(this Form form)
+        public static FormViewModel ToViewModel(this Form form)
         {
             var questions = form.Questions;
             if (questions == null)
@@ -21,7 +21,7 @@ namespace expressForm.Web.Extensions
                 Title = form.Title,
                 Description = form.Description,
                 Link = form.Link,
-                Questions = form.Questions.Select(question => question.ToQuestionViewModel()),
+                Questions = form.Questions.Select(question => question.ToViewModel()),
                 Responses = form.Responses,
                 CreatedDate = form.CreatedDate,
                 UpdatedDate = form.UpdatedDate,

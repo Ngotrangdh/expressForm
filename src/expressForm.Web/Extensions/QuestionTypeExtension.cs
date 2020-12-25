@@ -5,7 +5,7 @@ namespace expressForm.Web.Extensions
 {
     public static class QuestionTypeExtension
     {
-        public static QuestionTypeViewModel ToQuestionTypeViewModel(this QuestionType questionType)
+        public static QuestionTypeViewModel ToViewModel(this QuestionType questionType)
         {
             return (QuestionTypeViewModel)questionType;
         }

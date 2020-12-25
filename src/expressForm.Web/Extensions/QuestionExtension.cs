@@ -5,13 +5,13 @@ namespace expressForm.Web.Extensions
 {
     public static class QuestionExtension
     {
-        public static QuestionViewModel ToQuestionViewModel(this Question question)
+        public static QuestionViewModel ToViewModel(this Question question)
         {
             return new QuestionViewModel
             {
                 Id = question.Id,
                 Text = question.Text,
-                Type = question.Type.ToQuestionTypeViewModel(),
+                Type = question.Type.ToViewModel(),
                 IsRequired = question.IsRequired,
                 Options = question.Options,
                 Answers = question.Answers,

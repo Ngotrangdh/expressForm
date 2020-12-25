@@ -1,6 +1,7 @@
 ﻿using expressForm.Core.Models.Forms;
 using expressForm.Web.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,8 +14,7 @@ namespace expressForm.Web.Controllers
 
         public QuestionsController(IFormRepository formRepository)
         {
-            //TODO: move System. to using
-            _formRepository = formRepository ?? throw new System.ArgumentNullException(nameof(formRepository));
+            _formRepository = formRepository ?? throw new ArgumentNullException(nameof(formRepository));
         }
 
         [HttpGet]
@@ -40,8 +40,7 @@ namespace expressForm.Web.Controllers
 
                 if (question == null)
                 {
-                    // IsRequired initialization is not needed
-                    question = new Question { Text = "Untitled Question", Type = QuestionType.MutipleChoice, IsRequired = false };
+                    question = new Question { Text = "Untitled Question", Type = QuestionType.MutipleChoice };
                     form.Questions = new List<Question> { question };
                     _formRepository.Update(form);//need?
                     await _formRepository.SaveChangesAsync();
@@ -50,18 +49,23 @@ namespace expressForm.Web.Controllers
             else
             {
                 question = form.Questions.SingleOrDefault(question => question.Id == questionId);
+
+                if (question == null)
+                {
+                    return NotFound();
+                }
+
             }
 
-            // viewModel is enuf
-            var formQuestionViewModel = new FormQuestionViewModel
+           var model = new FormQuestionViewModel
             {
-                Form = form.ToFormViewModel(),
-                Question = question.ToQuestionViewModel(), // NW: question is nullable
-                Questions = form.Questions.Select(question => question.ToQuestionViewModel()),
+                Form = form.ToViewModel(),
+                Question = question.ToViewModel(),
+                Questions = form.Questions.Select(question => question.ToViewModel()),
                 HasQuestions = form.Questions.Any()
             };
 
-            return View("Index", formQuestionViewModel);
+            return View("Index", model);
         }
 
         [HttpPost]
@@ -85,15 +89,15 @@ namespace expressForm.Web.Controllers
             _formRepository.Update(form);
             await _formRepository.SaveChangesAsync();
 
-            var formQuestionViewModel = new FormQuestionViewModel
+            var model = new FormQuestionViewModel
             {
-                Form = form.ToFormViewModel(),
-                Question = question.ToQuestionViewModel(),
-                Questions = form.Questions.Select(question => question.ToQuestionViewModel()),
+                Form = form.ToViewModel(),
+                Question = question.ToViewModel(),
+                Questions = form.Questions.Select(question => question.ToViewModel()),
                 HasQuestions = form.Questions != null
             };
 
-            return View("Index", formQuestionViewModel);
+            return View("Index", model);
         }
     }
 }
