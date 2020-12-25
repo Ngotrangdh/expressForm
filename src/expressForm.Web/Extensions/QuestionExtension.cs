@@ -1,5 +1,7 @@
 ﻿using expressForm.Core.Models.Forms;
 using expressForm.Web.Models;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace expressForm.Web.Extensions
 {
@@ -13,7 +15,7 @@ namespace expressForm.Web.Extensions
                 Text = question.Text,
                 Type = question.Type.ToViewModel(),
                 IsRequired = question.IsRequired,
-                Options = question.Options,
+                Options = JsonConvert.DeserializeObject<List<string>>(question.Options ?? string.Empty) ?? new List<string>(),
                 Answers = question.Answers,
             };
         }

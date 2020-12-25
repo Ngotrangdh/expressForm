@@ -7,7 +7,7 @@ namespace expressForm.Web.Controllers
     {
         public IEnumerable<QuestionViewModel> Questions { get; set; }
         public FormViewModel Form { get; set; }
-        public bool HasQuestions { get; set; }
+        public bool HasOptions { get; set; }
         public QuestionViewModel Question { get; set; }
     }
 }
