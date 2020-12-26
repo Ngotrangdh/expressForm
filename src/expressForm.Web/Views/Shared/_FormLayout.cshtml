@@ -1,6 +1,5 @@
-﻿@{ 
-    ViewData["formId"] = Context.Request.Query["formId"].ToString();
-}
+﻿@model expressForm.Web.Models.FormQuestionViewModel
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,9 +34,9 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link text-dark"
-                               asp-controller="Forms"
-                               asp-action="Index"
-                               asp-route-formId="@ViewData["formId"]">
+                               asp-controller="View"
+                               asp-action="Preview"
+                               asp-route-formId="@Model.Form.Id">
                                 Preview
                             </a>
                         </li>
@@ -45,7 +44,7 @@
                             <a class="nav-link text-dark"
                                asp-controller="Share"
                                asp-action="Index"
-                               asp-route-formId="@ViewData["formId"]">
+                               asp-route-formId="@Model.Form.Id">
                                 Share
                             </a>
                         </li>

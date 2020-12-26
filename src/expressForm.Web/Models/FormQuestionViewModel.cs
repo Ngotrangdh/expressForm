@@ -1,7 +1,7 @@
 ﻿using expressForm.Web.Models;
 using System.Collections.Generic;
 
-namespace expressForm.Web.Controllers
+namespace expressForm.Web.Models
 {
     public class FormQuestionViewModel
     {

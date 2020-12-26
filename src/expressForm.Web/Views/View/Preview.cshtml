@@ -1,0 +1,104 @@
+﻿@model expressForm.Web.Models.FormViewModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Preview - ExpressForm</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="container">
+        <main role="main" class="py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form action="/" method="post">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@Model.Title</h5>
+                                <p class="card-text">@Model.Description</p>
+                            </div>
+                        </div>
+                        @foreach (var question in Model.Questions)
+                        {
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <input asp-for="@question.Id" type="hidden" />
+                                        <label asp-for="@question.Text" class="control-label">
+                                            @question.Text
+                                        <span class="text-danger">
+                                            @(question.IsRequired ? "*" :string.Empty)
+                                        </span>
+                                    </label>
+                                    @if (question.Type == QuestionTypeViewModel.ShortAnswer)
+                                    {
+                                        <input asp-for="@question.Answers" type="text" class="form-control">
+                                    }
+                                    else if (question.Type == QuestionTypeViewModel.Paragraph)
+                                    {
+                                        <textarea asp-for="@question.Answers" class="form-control" rows="3"></textarea>
+                                    }
+                                    else if (question.Type == QuestionTypeViewModel.Dropdown)
+                                    {
+                                        <select class="form-control"
+                                                id="question_Options"
+                                                name="question.Options"
+                                                asp-items="@question.Options.Select(o => new SelectListItem { Text = o.ToString()})">
+                                        </select>
+                                    }
+                                    else if (question.Type == QuestionTypeViewModel.Date)
+                                    {
+                                        <input asp-for="@question.Answers" type="date" class="form-control">
+                                    }
+                                    else if (question.Type == QuestionTypeViewModel.Checkboxes)
+                                    {
+                                        @for (int i = 0; i < question.Options.Count; i++)
+                                        {
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="question.Options" id="@question.Options[i]" value="@question.Options[i]">
+                                                <label class="form-check-label" for="@question.Options[i]">
+                                                    @question.Options[i]
+                                                </label>
+                                            </div>
+                                        }
+                                    }
+                                    else if (question.Type == QuestionTypeViewModel.MutipleChoice)
+                                    {
+                                        @for (int i = 0; i < question.Options.Count; i++)
+                                        {
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="question.Options" id="@question.Options[i]" value="@question.Options[i]">
+                                                <label class="form-check-label" for="@question.Options[i]">
+                                                    @question.Options[i]
+                                                </label>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - expressForm.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
