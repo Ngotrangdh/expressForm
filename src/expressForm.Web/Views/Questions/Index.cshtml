@@ -5,11 +5,6 @@
     ViewData["Title"] = "Question";
 }
 
-
-@section Scripts{
-    <script type="text/javascript" src="~/js/site.js"></script>
-}
-
 <div class="row">
     <div class="col-md-12">
         <h3>@Model.Form.Title</h3>
@@ -54,23 +49,29 @@
                         </div>
                         @if (Model.HasOptions)
                         {
-                            <ul>
+                            <ul style="list-style-type: circle;">
                                 @foreach (string option in Model.Question.Options)
                                 {
                                     <li>
-                                        <div class="form-group">
-                                            <input class="form-control"
+                                        <div class="input-group mb-3">
+                                            <input class="form-control btn-light"
                                                    type="text"
                                                    name="Question.Options"
                                                    placeholder="Option"
-                                                   value="@option">
+                                                   value="@option"
+                                                   autocomplete="off"
+                                                   @(string.IsNullOrEmpty(option) ? "autofocus" : string.Empty) />
+                                            <div class="input-group-append js-delete-option">
+                                                <button class="btn btn-light" type="button">╳</button>
+                                            </div>
                                         </div>
                                     </li>
                                 }
                             </ul>
-                            <button class="btn btn-secondary" asp-route-newOption="true" onclick="QuestionForm.submit()">Add Option</button>
+                            <span class="btn btn-secondary" onclick="addOption()">Add Option</span>
+                            <input type="hidden" id="NewOption" name="NewOption" />
                         }
-                        <button class="btn btn-primary" onclick="QuestionForm.submit()">Save</button>
+                        <button class="btn btn-primary">Save</button>
                     </div>
                     <div class="text-center p-3">
                         <a asp-action="Edit"
@@ -94,6 +95,25 @@
 </div>
 <hr />
 
+@section Scripts{
+    <script>
+
+        const deleteButtons = document.getElementsByClassName("js-delete-option");
+
+        Array.from(deleteButtons).forEach((button) => {
+            button.addEventListener("click", () => {
+                button.parentElement.parentElement.remove();
+                QuestionForm.submit();
+            });
+        });
+
+        function addOption() {
+            document.getElementById('NewOption').value = 'true';
+            QuestionForm.submit();
+        }
+
+    </script>
+}
 
 
 

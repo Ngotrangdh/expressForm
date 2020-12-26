@@ -90,7 +90,7 @@ namespace expressForm.Web.Controllers
             {
                 if (newOption.Value)
                 {
-                    viewModel.Question.Options.Add("Add Option");
+                    viewModel.Question.Options.Add(string.Empty);
                 }
             }
 

@@ -14,7 +14,7 @@ namespace expressForm.Web.Models
         public bool IsRequired { get; set; }
 
         [Display(Prompt = "Option")]
-        public List<string> Options { get; set; }
+        public List<string> Options { get; set; } = new List<string>();
 
         public FormViewModel Form { get; set; }
         public IEnumerable<Answer> Answers { get; set; }
