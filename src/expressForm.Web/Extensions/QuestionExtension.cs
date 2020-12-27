@@ -17,6 +17,7 @@ namespace expressForm.Web.Extensions
                 IsRequired = question.IsRequired,
                 Options = JsonConvert.DeserializeObject<List<string>>(question.Options ?? string.Empty) ?? new List<string>(),
                 Answers = question.Answers,
+                Form = question.Form.ToViewModel()
             };
         }
     }

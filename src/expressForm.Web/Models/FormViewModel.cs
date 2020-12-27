@@ -19,7 +19,7 @@ namespace expressForm.Web.Models
 
         public string Link { get; set; }
         public IEnumerable<QuestionViewModel> Questions { get; set; }
-        public IEnumerable<Response> Responses { get; set; }
+        public IEnumerable<Response> Responses { get; set; } = new List<Response>();
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public User User { get; set; }

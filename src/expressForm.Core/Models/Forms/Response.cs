@@ -8,7 +8,7 @@ namespace expressForm.Core.Models.Forms
     {
         public int Id { get; set; }
         public Form Form { get; set; }
-        public List<Answer> Answers { get; set; }
+        public List<Answer> Answers { get; set; } = new List<Answer>();
         public DateTime CreatedDate { get; set; }
     }
 }

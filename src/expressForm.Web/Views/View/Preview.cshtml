@@ -1,5 +1,4 @@
-﻿@model expressForm.Web.Models.FormViewModel
-
+﻿@model List<expressForm.Web.Controllers.AnswerViewModel>
 @{
     Layout = null;
 }
@@ -13,72 +12,71 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+<body style="background-color: #e5f6fe;" >
     <div class="container">
         <main role="main" class="py-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <form action="/" method="post">
+                    <form asp-controller="view" asp-action="preview" asp-route-responseId="1">
                         <div class="card mb-3">
-                            <div class="card-header">
+                            <div class="card-header" style="background-color: #067cb3">
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">@Model.Title</h5>
-                                <p class="card-text">@Model.Description</p>
+                                <h5 class="card-title">@Model[1].Question.Form.Title</h5>
+                                <p class="card-text">@Model[1].Question.Form.Description</p>
                             </div>
                         </div>
-                        @foreach (var question in Model.Questions)
+                        @for (int i = 0; i < Model.Count; i++)
                         {
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <input asp-for="@question.Id" type="hidden" />
-                                        <label asp-for="@question.Text" class="control-label">
-                                            @question.Text
+                                        <label class="control-label">
+                                            @Model[i].Question.Text
                                         <span class="text-danger">
-                                            @(question.IsRequired ? "*" :string.Empty)
+                                            @(Model[i].Question.IsRequired ? "*" :string.Empty)
                                         </span>
                                     </label>
-                                    @if (question.Type == QuestionTypeViewModel.ShortAnswer)
+                                        <input type="hidden" asp-for="@Model[i].Question.Id"  />
+                                    @if (Model[i].Question.Type == QuestionTypeViewModel.ShortAnswer)
                                     {
-                                        <input asp-for="@question.Answers" type="text" class="form-control">
+                                        <input asp-for="@Model[i].Text" class="form-control">
                                     }
-                                    else if (question.Type == QuestionTypeViewModel.Paragraph)
+                                    else if (Model[i].Question.Type == QuestionTypeViewModel.Paragraph)
                                     {
-                                        <textarea asp-for="@question.Answers" class="form-control" rows="3"></textarea>
+                                        <textarea asp-for="@Model[i].Text" class="form-control" rows="3"></textarea>
                                     }
-                                    else if (question.Type == QuestionTypeViewModel.Dropdown)
+                                    else if (Model[i].Question.Type == QuestionTypeViewModel.Dropdown)
                                     {
                                         <select class="form-control"
-                                                id="question_Options"
-                                                name="question.Options"
-                                                asp-items="@question.Options.Select(o => new SelectListItem { Text = o.ToString()})">
+                                                asp-for="@Model[i].Text"
+                                                asp-items="@Model[i].Question.Options.Select(o => new SelectListItem { Text = o.ToString()})">
                                         </select>
                                     }
-                                    else if (question.Type == QuestionTypeViewModel.Date)
+                                    else if (Model[i].Question.Type == QuestionTypeViewModel.Date)
                                     {
-                                        <input asp-for="@question.Answers" type="date" class="form-control">
+                                        <input asp-for="@Model[i].Text" type="date" class="form-control">
                                     }
-                                    else if (question.Type == QuestionTypeViewModel.Checkboxes)
+                                    else if (Model[i].Question.Type == QuestionTypeViewModel.Checkboxes)
                                     {
-                                        @for (int i = 0; i < question.Options.Count; i++)
+                                        @for (int j = 0; j < Model[i].Question.Options.Count; j++)
                                         {
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="question.Options" id="@question.Options[i]" value="@question.Options[i]">
-                                                <label class="form-check-label" for="@question.Options[i]">
-                                                    @question.Options[i]
+                                                <input class="form-check-input" type="checkbox" asp-for="@Model[i].Text" value="@Model[i].Question.Options[j]">
+                                                <label class="form-check-label" for="@Model[i].Question.Id">
+                                                    @Model[i].Question.Options[j]
                                                 </label>
                                             </div>
                                         }
                                     }
-                                    else if (question.Type == QuestionTypeViewModel.MutipleChoice)
+                                    else if (Model[i].Question.Type == QuestionTypeViewModel.MutipleChoice)
                                     {
-                                        @for (int i = 0; i < question.Options.Count; i++)
+                                        @for (int h = 0; h < Model[i].Question.Options.Count; h++)
                                         {
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="question.Options" id="@question.Options[i]" value="@question.Options[i]">
-                                                <label class="form-check-label" for="@question.Options[i]">
-                                                    @question.Options[i]
+                                                <input class="form-check-input" type="radio" asp-for="@Model[i].Text" value="@Model[i].Question.Options[h]">
+                                                <label class="form-check-label" for="@Model[i].Question.Id">
+                                                    @Model[i].Question.Options[h]
                                                 </label>
                                             </div>
                                         }
@@ -87,6 +85,7 @@
                             </div>
                         </div>
                     }
+                    <button class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
@@ -94,7 +93,7 @@
     </div>
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - expressForm.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - ExpressForm - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
