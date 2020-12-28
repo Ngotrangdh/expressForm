@@ -44,7 +44,7 @@ namespace expressForm.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<string> Preview(int? formId, int? responseId, List<AnswerViewModel> viewModel)
+        public async Task<IActionResult> Preview(int? formId, int? responseId, List<AnswerViewModel> viewModel)
         {
             if (formId == null)
             {
@@ -79,7 +79,7 @@ namespace expressForm.Web.Controllers
 
             _formRepository.Update(form);
             await _formRepository.SaveChangesAsync();
-            return "Successful";
+            return View("Successful", form.ToViewModel());
         }
     }
 
