@@ -1,30 +1,35 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using expressForm.Core.Models.Forms;
+using Microsoft.AspNetCore.Mvc;
+using expressForm.Web.Extensions;
 using System.Threading.Tasks;
 
 namespace expressForm.Web.Controllers
 {
     public class ShareController : Controller
     {
-        public IActionResult Index(int formId)
-        {
-            var model = new FormShareViewModel()
-            {
-                FormId = formId,
-                Title = "First Form",
-                Link = "https://docs.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/built-in/anchor-tag-helper?view=aspnetcore-5.0"
-            };
-            return View(model);
-        }
-    }
+        private readonly IFormRepository _formRepository;
 
-    public class FormShareViewModel
-    {
-        public int FormId { get; set; }
-        public String Title { get; set; }
-        public string Link { get; set; }
+        public ShareController(IFormRepository formRepository)
+        {
+            _formRepository = formRepository;
+        }
+
+        public async Task<IActionResult> Index(int? formId)
+        {
+            if (formId == null)
+            {
+                return NotFound();
+            }
+
+            var form = await _formRepository.FindAsync(formId.Value);
+
+            if (formId == null)
+            {
+                return NotFound();
+            }
+
+            return View(form.ToViewModel());
+        }
     }
 }
 
