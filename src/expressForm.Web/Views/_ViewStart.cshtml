@@ -1,8 +1,9 @@
 ﻿@{
     var controller = Context.Request.RouteValues["Controller"].ToString();
     @*var action = Context.Request.RouteValues["action"].ToString();*@
-    if (string.Equals(controller, "Home", StringComparison.OrdinalIgnoreCase) ||
-        string.Equals(controller, "Forms", StringComparison.OrdinalIgnoreCase))
+    if (string.Equals(controller, "Home", StringComparison.OrdinalIgnoreCase) 
+        || string.Equals(controller, "Forms", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(controller, "Responses", StringComparison.OrdinalIgnoreCase))
     {
         Layout = "_Layout";
     }

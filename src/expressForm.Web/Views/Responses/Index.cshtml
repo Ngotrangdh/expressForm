@@ -1,0 +1,32 @@
+﻿@model List<expressForm.Core.Models.Forms.Response>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@Model.Count Responses</h1>
+<table class="table">
+
+    <thead>
+        <tr>
+            @foreach (var question in Model[0].Form.Questions)
+            {
+
+                <th>@question.Text</th>
+            }
+
+        </tr>
+    </thead>
+    @foreach (var response in Model)
+    {
+        <tbody>
+            <tr>
+                @foreach (var answer in response.Answers)
+                {
+                    <td>@answer.Text</td>
+                }
+            </tr>
+        </tbody>
+    }
+</table>
+
+

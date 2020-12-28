@@ -52,8 +52,10 @@
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
                     <a asp-controller="Questions" asp-action="Edit" asp-route-formId="@item.Id">Questions</a> |
+                    <a asp-controller="Responses" asp-action="Index" asp-route-formId="@item.Id">Responses</a> |
+
                 </td>
             </tr>
         }
     </tbody>
-</table>
+</table>    

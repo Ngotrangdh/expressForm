@@ -28,7 +28,11 @@ namespace expressForm.Infrastructure.Repositories
 
         private async Task<Form> FindAsync(Expression<Func<Form, bool>> predicate)
         {
-            return await _context.Forms.Include(f => f.Questions).SingleOrDefaultAsync(predicate);
+            return await _context.Forms
+                .Include(f => f.Questions)
+                .Include(f => f.Responses)
+                    .ThenInclude(r => r.Answers)
+                .SingleOrDefaultAsync(predicate);
         }
 
         public async Task<IEnumerable<Form>> GetAllAsync()
