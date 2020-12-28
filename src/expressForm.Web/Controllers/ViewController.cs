@@ -32,40 +32,36 @@ namespace expressForm.Web.Controllers
                 return NotFound();
             }
 
-            var response = new Response();
-
-            form.Responses.Add(response);
-            _formRepository.Update(form);
-            await _formRepository.SaveChangesAsync();
-            var answers = new List<AnswerViewModel>();
-
-            answers = form.Questions.Select(q => new AnswerViewModel { Question = q.ToViewModel(), Response = response }).ToList();
-            return View(answers);
+            var response = new ResponseViewModel
+            {
+                FormTitle = form.Title,
+                FormDescription = form.Description,
+                Answers = form.Questions
+                    .Select(q => new AnswerViewModel { Question = q.ToViewModel()})
+                    .ToList()
+            };
+        
+            return View(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Preview(int? formId, int? responseId, List<AnswerViewModel> viewModel)
+        public async Task<IActionResult> Preview(int? formId, ResponseViewModel viewModel)
         {
             if (formId == null)
             {
-                //return NotFound();
+                return NotFound();
             }
 
             var form = await _formRepository.FindAsync(formId.Value);
 
             if (form == null)
             {
-                //return NotFound();
+                return NotFound();
             }
 
-            if (responseId == null)
+             var response = new Response
             {
-                //return NotFound();
-            }
-
-            var response = new Response
-            {
-                Answers = viewModel
+                Answers = viewModel.Answers
                     .Select(a => new Answer
                     {
                         Text = a.Text,
@@ -76,21 +72,9 @@ namespace expressForm.Web.Controllers
             };
 
             form.Responses.Add(response);
-
             _formRepository.Update(form);
             await _formRepository.SaveChangesAsync();
-            return View("Successful", form.ToViewModel());
+            return View("Success", form.ToViewModel());
         }
     }
-
-    public class AnswerViewModel
-    {
-        public int Id { get; set; }
-        public string Text { get; set; }
-        public QuestionViewModel Question { get; set; }
-        public Response Response { get; set; }
-    }
-
-
-
 }

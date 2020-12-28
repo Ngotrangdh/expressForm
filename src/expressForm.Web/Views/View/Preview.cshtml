@@ -1,4 +1,4 @@
-﻿@model List<expressForm.Web.Controllers.AnswerViewModel>
+﻿@model ResponseViewModel
 @{
     Layout = null;
 }
@@ -17,68 +17,73 @@
         <main role="main" class="py-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <form asp-controller="view" asp-action="preview" asp-route-responseId="1">
+                    <form asp-controller="view" asp-action="preview">
                         <div class="card mb-3">
                             <div class="card-header" style="background-color: #067cb3">
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">@Model[1].Question.Form.Title</h5>
-                                @*Questions are not guaranteed to be not empty*@
-                                <p class="card-text">@Model[1].Question.Form.Description</p>
+                                <h5 class="card-title">@Model.FormTitle</h5>
+                                <p class="card-text">@Model.FormDescription</p>
                             </div>
                         </div>
-                        @for (int i = 0; i < Model.Count; i++)
+                        @for (int i = 0; i <  Model.Answers.Count; i++)
                         {
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label class="control-label">
-                                            @Model[i].Question.Text
+                                            @Model.Answers[i].Question.Text
                                         <span class="text-danger">
-                                            @(Model[i].Question.IsRequired ? "*" :string.Empty)
+                                            @(Model.Answers[i].Question.IsRequired ? "*" :string.Empty)
                                         </span>
                                     </label>
-                                        <input type="hidden" asp-for="@Model[i].Question.Id"  />
+                                        <input type="hidden" asp-for="@Model.Answers[i].Question.Id"  />
 
-                                    @if (Model[i].Question.Type == QuestionTypeViewModel.ShortAnswer)
+                                    @if (Model.Answers[i].Question.Type == QuestionTypeViewModel.ShortAnswer)
                                     {
-                                        <input asp-for="@Model[i].Text" class="form-control">
+                                        <input asp-for="@Model.Answers[i].Text" class="form-control">
                                     }
-                                    else if (Model[i].Question.Type == QuestionTypeViewModel.Paragraph)
+                                    else if (Model.Answers[i].Question.Type == QuestionTypeViewModel.Paragraph)
                                     {
-                                        <textarea asp-for="@Model[i].Text" class="form-control" rows="3"></textarea>
+                                        <textarea asp-for="@Model.Answers[i].Text" class="form-control" rows="3"></textarea>
                                     }
-                                    else if (Model[i].Question.Type == QuestionTypeViewModel.Dropdown)
+                                    else if (Model.Answers[i].Question.Type == QuestionTypeViewModel.Dropdown)
                                     {
                                         <select class="form-control"
-                                                asp-for="@Model[i].Text"
-                                                asp-items="@Model[i].Question.Options.Select(o => new SelectListItem { Text = o.ToString()})">
+                                                asp-for="@Model.Answers[i].Text"
+                                                asp-items="@Model.Answers[i].Question.Options.Select(o => new SelectListItem { Text = o.ToString()})">
                                         </select>
                                     }
-                                    else if (Model[i].Question.Type == QuestionTypeViewModel.Date)
+                                    else if (Model.Answers[i].Question.Type == QuestionTypeViewModel.Date)
                                     {
-                                        <input asp-for="@Model[i].Text" type="date" class="form-control">
+                                        <input asp-for="@Model.Answers[i].Text" type="date" class="form-control">
                                     }
-                                    else if (Model[i].Question.Type == QuestionTypeViewModel.Checkboxes)
+                                    else if (Model.Answers[i].Question.Type == QuestionTypeViewModel.Checkboxes)
                                     {
-                                        @for (int j = 0; j < Model[i].Question.Options.Count; j++)
+                                        @for (int j = 0; j < Model.Answers[i].Question.Options.Count; j++)
                                         {
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" asp-for="@Model[i].Text" value="@Model[i].Question.Options[j]">
-                                                <label class="form-check-label" for="@Model[i].Question.Id">
-                                                    @Model[i].Question.Options[j]
+                                                <input class="form-check-input" type="checkbox" 
+                                                                                asp-for="@Model.Answers[i].Text"
+                                                                                id="Answers_@(i)__Text_@(j)" 
+                                                                                value="@Model.Answers[i].Question.Options[j]">
+                                                <label class="form-check-label" for="Answers_@(i)__Text_@(j)">
+                                                    @Model.Answers[i].Question.Options[j]
                                                 </label>
                                             </div>
                                         }
                                     }
-                                    else if (Model[i].Question.Type == QuestionTypeViewModel.MutipleChoice)
+                                    else if (Model.Answers[i].Question.Type == QuestionTypeViewModel.MutipleChoice)
                                     {
-                                        @for (int h = 0; h < Model[i].Question.Options.Count; h++)
+                                        @for (int h = 0; h < Model.Answers[i].Question.Options.Count; h++)
                                         {
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" asp-for="@Model[i].Text" value="@Model[i].Question.Options[h]">
-                                                <label class="form-check-label" for="@Model[i].Question.Id">
-                                                    @Model[i].Question.Options[h]
+                                                <input class="form-check-input" type="radio" 
+                                                                                asp-for="@Model.Answers[i].Text" 
+                                                                                id="Answers_@(i)__Text_@(h)"
+                                                                                value="@Model.Answers[i].Question.Options[h]">
+                                                <label class="form-check-label" for="Answers_@(i)__Text_@(h)">
+                                                    @Model.Answers[i].Question.Options[h]
                                                 </label>
                                             </div>
                                         }
