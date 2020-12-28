@@ -22,6 +22,13 @@ namespace expressForm.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int? formId, int? questionId)
         {
+            // alternative {
+            if (!formId.HasValue || await _formRepository.FindAsync(formId.Value) is not Form form1)
+            {
+                return NotFound();
+            }
+            // }
+
             if (formId == null)
             {
                 return NotFound();
@@ -47,9 +54,9 @@ namespace expressForm.Web.Controllers
             }
             else
             {
-                if (questionId == 0)
+                if (questionId == 0) // this logic should be moved to another action
                 {
-                    question = await AddNewQuestion(form, form.Questions);
+                    question = await AddNewQuestion(form, form.Questions); 
                 }
                 else
                 {
@@ -62,13 +69,14 @@ namespace expressForm.Web.Controllers
                 }
             }
 
-            var model = new FormQuestionViewModel
+            // this logic can be encapsulated to FormQuestionViewModel's ctor
+            var model = new FormQuestionViewModel // rename to viewModel to be consistent
             {
                 Form = form.ToViewModel(),
                 Question = question.ToViewModel(),
                 Questions = form.Questions.Select(question => question.ToViewModel()),
                 HasOptions = IsMultiOptions(question.Type.ToViewModel())
-            };
+            }; // viewModel to be consistent
 
             return View("Index", model);
         }
@@ -76,33 +84,42 @@ namespace expressForm.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int? formId, int? questionId, bool? newOption, FormQuestionViewModel viewModel)
         {
-            if (formId == null)
+            if (formId == null) // || questionId == null
             {
                 return NotFound();
             }
 
             var form = await _formRepository.FindAsync(formId.Value);
+
             if (form == null)
             {
                 return NotFound();
             }
-            if (newOption != null)
+
+            // this logic should be moved to its own action {
+            if (newOption != null) // if (newOption.HasValue)
             {
-                if (newOption.Value)
+                if (newOption.Value) // not needed
                 {
                     viewModel.Question.Options.Add(string.Empty);
                 }
             }
+            // }
 
             var question = form.Questions.SingleOrDefault(question => question.Id == questionId);
+
+            // what if question is null?
+
             question.Text = viewModel.Question.Text;
             question.Type = viewModel.Question.Type.ToQuestionType();
             question.IsRequired = viewModel.Question.IsRequired;
             question.Options = JsonConvert.SerializeObject(viewModel.Question.Options);
+
             _formRepository.Update(form);
             await _formRepository.SaveChangesAsync();
 
-            var model = new FormQuestionViewModel
+            // this logic can be encapsulated to FormQuestionViewModel's ctor
+            var model = new FormQuestionViewModel // viewModel to be consistent
             {
                 Form = form.ToViewModel(),
                 Question = question.ToViewModel(),
@@ -110,12 +127,12 @@ namespace expressForm.Web.Controllers
                 HasOptions = IsMultiOptions(question.Type.ToViewModel())
             };
 
-            return View("Index", model);
+            return View("Index", model); // View name should be Edit to be consistent
         }
 
         public async Task<IActionResult> Delete(int? formId, int? questionId)
         {
-            if (formId == null)
+            if (formId == null) // || questionId is null
             {
                 return NotFound();
             }
@@ -142,19 +159,22 @@ namespace expressForm.Web.Controllers
             return RedirectToAction("Edit", new { formId });
         }
 
-        private async Task<Question> AddNewQuestion(Form form, List<Question> questions)
+        private async Task<Question> AddNewQuestion(Form form, List<Question> questions) // questions is not needed
         {
             Question question = new Question { Text = "Untitled Question", Type = QuestionType.MutipleChoice };
             questions.Add(question);
             form.Questions = questions;
-            _formRepository.Update(form);//need?
+            _formRepository.Update(form); // is this necessary?
             await _formRepository.SaveChangesAsync();
             return question;
         }
 
-        private bool IsMultiOptions(QuestionTypeViewModel questionType)
+        // this logic should be encapsulated to FormQuestionViewModel
+        private bool IsMultiOptions(QuestionTypeViewModel questionType) // make static and rename to HasOptions
         {
-            var optionList = new List<QuestionTypeViewModel>
+            // options is enuf
+            // Also, this should be a private field of HashSet
+            var optionList = new List<QuestionTypeViewModel> 
             {
                 QuestionTypeViewModel.Checkboxes,
                 QuestionTypeViewModel.Dropdown,
@@ -163,6 +183,5 @@ namespace expressForm.Web.Controllers
 
             return optionList.Contains(questionType);
         }
-
     }
 }

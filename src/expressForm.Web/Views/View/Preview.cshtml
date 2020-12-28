@@ -23,6 +23,7 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">@Model[1].Question.Form.Title</h5>
+                                @*Questions are not guaranteed to be not empty*@
                                 <p class="card-text">@Model[1].Question.Form.Description</p>
                             </div>
                         </div>
@@ -38,6 +39,7 @@
                                         </span>
                                     </label>
                                         <input type="hidden" asp-for="@Model[i].Question.Id"  />
+
                                     @if (Model[i].Question.Type == QuestionTypeViewModel.ShortAnswer)
                                     {
                                         <input asp-for="@Model[i].Text" class="form-control">

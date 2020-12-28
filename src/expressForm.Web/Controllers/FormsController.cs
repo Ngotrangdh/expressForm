@@ -53,7 +53,7 @@ namespace expressForm.Web.Controllers
             if (ModelState.IsValid)
             {
 
-                var form = new Form { Title = viewModel.Title, Description = viewModel.Description.ToStringOrEmpty(), Questions = new List<Question>(), Guid = Guid.NewGuid() };
+                var form = new Form { Title = viewModel.Title, Description = viewModel.Description.ToStringOrEmpty(), Questions = new List<Question>(), Guid = Guid.NewGuid() }; // too long line
                 _repository.Add(form);
                 await _repository.SaveChangesAsync();
                 return RedirectToRoute("questions", new { formId = form.Id});
