@@ -1,13 +1,13 @@
 ﻿@{
     var controller = Context.Request.RouteValues["Controller"].ToString();
-    @*var action = Context.Request.RouteValues["action"].ToString();*@
+    var action = Context.Request.RouteValues["action"].ToString();
     if (string.Equals(controller, "Home", StringComparison.OrdinalIgnoreCase) 
-        || string.Equals(controller, "Forms", StringComparison.OrdinalIgnoreCase)
-        || string.Equals(controller, "Responses", StringComparison.OrdinalIgnoreCase))
+        || (string.Equals(controller, "Forms", StringComparison.OrdinalIgnoreCase) 
+            && !string.Equals(action, "Edit", StringComparison.OrdinalIgnoreCase)))
     {
         Layout = "_Layout";
     }
-    else
+    else 
     {
         Layout = "_FormLayout";
     }

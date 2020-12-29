@@ -76,5 +76,17 @@ namespace expressForm.Web.Controllers
             await _formRepository.SaveChangesAsync();
             return View("Success", form.ToViewModel());
         }
+
+        public async Task<IActionResult> View(Guid guid)
+        {
+            var form = await _formRepository.FindAsync(guid);
+
+            if (form == null)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("preview", new { formId = form.Id });
+        }
     }
 }

@@ -57,6 +57,12 @@ namespace expressForm.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{formId?}");
+
+                endpoints.MapControllerRoute(
+                    name: "view",
+                    pattern: "View/{guid}",
+                    defaults: new {controller = "view", action = "view"}
+                    );
             });
         }
     }

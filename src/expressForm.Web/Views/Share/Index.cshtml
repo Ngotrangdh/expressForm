@@ -1,4 +1,4 @@
-﻿@model expressForm.Web.Models.FormViewModel
+﻿@model ShareViewModel
 @{
     Layout = null;
 }
@@ -17,19 +17,19 @@
         <main role="main" class="py-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <h4>@Model.Title</h4>
-                    <p>@Model.Description</p>
-                    <input class="form-control" type="text" placeholder="@Model.Link" readonly />
-                    <button class="btn btn-primary mt-4">Copy</button>
-                    <hr />
-                    <h4>Email</h4>
-                    <form asp-action="SendForm" asp-route-FormId="@Model.Id">
+                    <h4>@Model.FormTitle</h4>
+                    <p>@Model.FormDescription</p>
+                    <form asp-action="SendForm" asp-route-FormId="@Model.FormId">
+                        <input class="form-control" asp-for="@Model.Link" readonly />
+                        <button id="js-copyLink-button" onclick="copyLink()" class="btn btn-primary mt-4">Copy</button>
+                        <hr />
+                        <h4>Email</h4>
                         <div class="form-group">
-                            <input class="form-control" type="email" name="email" id="email" placeholder="Email Address" />
+                            <input asp-for="@Model.Email" class="form-control" />
                             <br />
-                            <input class="form-control" type="text" name="subject" id="subject" placeholder="Subject" />
+                            <input asp-for="@Model.Subject" class="form-control" value="@Model.FormTitle" />
                             <br />
-                            <input class="form-control" type="text" name="message" id="message" placeholder="Message" />
+                            <input asp-for="@Model.Message" class="form-control" />
                         </div>
                         <button class="btn btn-primary">Send</button>
                     </form>
@@ -44,6 +44,13 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        function copyLink() {
+            event.preventDefault();
+            const copyText = document.getElementById("Link");
+            document.execCommand("copy");
+            alert("Copied the link: " + copyText.value);
+        }
+    </script>
 </body>
 </html>

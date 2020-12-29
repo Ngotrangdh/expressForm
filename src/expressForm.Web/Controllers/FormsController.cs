@@ -25,21 +25,6 @@ namespace expressForm.Web.Controllers
             return View(forms);
         }
 
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var form = await _repository.FindAsync(id.Value);
-            if (form == null)
-            {
-                return NotFound();
-            }
-            return View(form);
-        }
-
         #region Create
         public IActionResult Create()
         {
@@ -53,7 +38,13 @@ namespace expressForm.Web.Controllers
             if (ModelState.IsValid)
             {
 
-                var form = new Form { Title = viewModel.Title, Description = viewModel.Description.ToStringOrEmpty(), Questions = new List<Question>(), Guid = Guid.NewGuid() }; // too long line
+                var form = new Form 
+                { 
+                    Title = viewModel.Title, 
+                    Description = viewModel.Description.ToStringOrEmpty(), 
+                    Questions = new List<Question>(), 
+                    Guid = Guid.NewGuid() 
+                };
                 _repository.Add(form);
                 await _repository.SaveChangesAsync();
                 return RedirectToRoute("questions", new { formId = form.Id});
@@ -63,31 +54,37 @@ namespace expressForm.Web.Controllers
         #endregion
 
         #region Edit
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? formId)
         {
-            if (id == null)
+            if (formId == null)
             {
                 return NotFound();
             }
 
-            var form = await _repository.FindAsync(id.Value);
+            var form = await _repository.FindAsync(formId.Value);
             if (form == null)
             {
                 return NotFound();
             }
-            return View(new FormViewModel
+
+            var viewModel = new FormQuestionViewModel
             {
-                Id = form.Id,
-                Title = form.Title,
-                Description = form.Description
-            });
+                Form = new FormViewModel
+                {
+                    Id = form.Id,
+                    Title = form.Title,
+                    Description = form.Description
+                }
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description")] FormViewModel viewModel)
+        public async Task<IActionResult> Edit(int formId, FormQuestionViewModel viewModel)
         {
-            if (id != viewModel.Id)
+            if (formId != viewModel.Form.Id)
             {
                 return NotFound();
             }
@@ -96,13 +93,13 @@ namespace expressForm.Web.Controllers
             {
                 try
                 {
-                    var form = new Form { Id = id, Title = viewModel.Title, Description = viewModel.Description.ToStringOrEmpty() };
+                    var form = new Form { Id = formId, Title = viewModel.Form.Title, Description = viewModel.Form.Description.ToStringOrEmpty() };
                     _repository.Update(form);
                     await _repository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await FormExistsAsync(id))
+                    if (!await FormExistsAsync(formId))
                     {
                         return NotFound();
                     }
@@ -111,7 +108,7 @@ namespace expressForm.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Edit", "Questions", new { formId });
             }
             return View();
         }

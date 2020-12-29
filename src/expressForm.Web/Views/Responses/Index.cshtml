@@ -1,14 +1,15 @@
-﻿@model List<expressForm.Core.Models.Forms.Response>
+﻿@model FormQuestionViewModel
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>@Model.Count Responses</h1>
+
+<h1>@Model.Form.Responses.Count() Responses</h1>
 <table class="table">
 
     <thead>
         <tr>
-            @foreach (var question in Model[0].Form.Questions)
+            @foreach (var question in Model.Form.Questions)
             {
 
                 <th>@question.Text</th>
@@ -16,7 +17,7 @@
 
         </tr>
     </thead>
-    @foreach (var response in Model)
+    @foreach (var response in Model.Form.Responses)
     {
         <tbody>
             <tr>

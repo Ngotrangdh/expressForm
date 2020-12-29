@@ -22,18 +22,24 @@
                 <div class="navbar-collapse collapse">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Forms" asp-action="Index">Forms</a>
+                            <a class="nav-link text-dark" asp-controller="Forms" asp-action="Index">Forms</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav justify-content-center ">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Forms" asp-action="Edit" asp-route-formId="@Model.Form.Id">Settings</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Questions" asp-action="Index">Questions</a>
+                            <a class="nav-link text-dark" asp-controller="Questions" asp-action="Edit" asp-route-formId="@Model.Form.Id">Questions</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Forms" asp-action="Index">Response</a>
+                            <a class="nav-link text-dark" asp-controller="Responses" asp-action="Index" asp-route-formId="@Model.Form.Id">Responses</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link text-dark"
+                               target="_blank"
                                asp-controller="View"
                                asp-action="Preview"
                                asp-route-formId="@Model.Form.Id">
@@ -42,6 +48,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark"
+                               target="_blank"
                                asp-controller="Share"
                                asp-action="Index"
                                asp-route-formId="@Model.Form.Id">

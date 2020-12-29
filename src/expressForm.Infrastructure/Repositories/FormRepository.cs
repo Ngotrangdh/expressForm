@@ -26,6 +26,11 @@ namespace expressForm.Infrastructure.Repositories
             return FindAsync(form => form.Id == id);
         }
 
+        public Task<Form> FindAsync(Guid guid)
+        {
+            return FindAsync(form =>  form.Guid == guid);
+        }
+
         private async Task<Form> FindAsync(Expression<Func<Form, bool>> predicate)
         {
             return await _context.Forms

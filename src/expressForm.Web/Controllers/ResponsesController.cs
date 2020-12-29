@@ -1,4 +1,6 @@
 ﻿using expressForm.Core.Models.Forms;
+using expressForm.Web.Extensions;
+using expressForm.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -25,7 +27,13 @@ namespace expressForm.Web.Controllers
 
             var form = await _formRepository.FindAsync(formId.Value);
 
-            return View(form.Responses);
+            var viewModel = new FormQuestionViewModel
+            {
+                Form = form.ToViewModel()
+            };
+
+
+            return View(viewModel);
         }
     }
 }

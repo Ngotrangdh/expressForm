@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using expressForm.Web.Models;
+using System;
 
 namespace expressForm.Web.Controllers
 {
@@ -34,19 +35,23 @@ namespace expressForm.Web.Controllers
                 return NotFound();
             }
 
-            return View(form.ToViewModel());
+
+            var viewModel = new ShareViewModel
+            {
+                FormId = formId.Value,
+                FormTitle = form.Title,
+                FormDescription = form.Description,
+                Link = Url.Link("view", new { guid = form.Guid})
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendForm(EmailViewModel viewModel)
+        public async Task<IActionResult> SendForm(ShareViewModel viewModel)
         {
-            if (viewModel.FormId == null)
-            {
-                return NotFound();
-            }
-
-            var form = await _formRepository.FindAsync(int.Parse(viewModel.FormId));
+            var form = await _formRepository.FindAsync(viewModel.FormId);
 
             if (form == null)
             {
@@ -65,7 +70,7 @@ namespace expressForm.Web.Controllers
             return View("Success", viewModel);
         }
 
-        private async Task<SendGrid.Response> SendEmail(EmailViewModel viewModel)
+        private async Task<SendGrid.Response> SendEmail(ShareViewModel viewModel)
         {
             var apiKey = _configuration.GetSection("SendgridApiKey").Value;
             var client = new SendGridClient(apiKey);
@@ -73,7 +78,7 @@ namespace expressForm.Web.Controllers
             var subject = viewModel.Subject;
             var to = new EmailAddress(viewModel.Email);
             var plainTextContent = viewModel.Message;
-            var htmlContent = viewModel.Message;
+            var htmlContent = viewModel.Message + "\n" + viewModel.Link;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
             return response;

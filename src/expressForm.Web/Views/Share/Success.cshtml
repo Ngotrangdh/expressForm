@@ -1,4 +1,4 @@
-﻿@model EmailViewModel
+﻿@model ShareViewModel
 @{
     Layout = null;
 }
@@ -23,6 +23,7 @@
                         <div class="card-body">
                             <h5 class="card-title">@Model.FormTitle</h5>
                             <p class="card-text">Form has been sent to @Model.Email.</p>
+                            <a asp-controller="Forms" asp-action="Index">Back to forms</a>
                         </div>
                     </div>
                 </div>

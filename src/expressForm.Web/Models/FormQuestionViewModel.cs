@@ -17,13 +17,13 @@ namespace expressForm.Web.Models
         {
             Form = form?.ToViewModel() ?? throw new ArgumentNullException(nameof(form));
             Question = question?.ToViewModel() ?? throw new ArgumentNullException(nameof(question));
-            Questions = form.Questions.Select(q => q.ToViewModel());
+            Questions = form.Questions.Select(q => q.ToViewModel()).ToList();
         }
 
         public IEnumerable<QuestionViewModel> Questions { get; set; }
         public FormViewModel Form { get; set; }
         public QuestionViewModel Question { get; set; }
-        public bool HasOptions => _hasOptionTypes.Contains(Question.Type);
+        public bool HasOptions => ((Question==null)?false: _hasOptionTypes.Contains(Question.Type));
 
         private static readonly HashSet<QuestionTypeViewModel> _hasOptionTypes = new HashSet<QuestionTypeViewModel>
         {
