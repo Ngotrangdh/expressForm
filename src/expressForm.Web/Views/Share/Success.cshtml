@@ -1,0 +1,41 @@
+﻿@model EmailViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExpressForm</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body style="background-color: #e5f6fe;">
+    <div class="container">
+        <main role="main" class="py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-header" style="background-color: #067cb3">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@Model.FormTitle</h5>
+                            <p class="card-text">Form has been sent to @Model.Email.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - ExpressForm - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
