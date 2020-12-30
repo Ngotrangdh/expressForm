@@ -2,6 +2,7 @@
 using expressForm.Web.Extensions;
 using expressForm.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ namespace expressForm.Web.Controllers
             {
                 if (questionId == 0) // this logic should be moved to another action
                 {
-                    question = await AddNewQuestion(form); 
+                    question = await AddNewQuestion(form);
                 }
                 else
                 {
@@ -96,17 +97,26 @@ namespace expressForm.Web.Controllers
                 return NotFound();
             }
 
-            question.Text = viewModel.Question.Text;
-            question.Type = viewModel.Question.Type.ToQuestionType();
-            question.IsRequired = viewModel.Question.IsRequired;
-            question.Options = JsonConvert.SerializeObject(viewModel.Question.Options);
-
-            _formRepository.Update(form);
-            await _formRepository.SaveChangesAsync();
-
             var model = new FormQuestionViewModel(form, question);
-           
-            return View("Edit", model);
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    question.Text = viewModel.Question.Text;
+                    question.Type = viewModel.Question.Type.ToQuestionType();
+                    question.IsRequired = viewModel.Question.IsRequired;
+                    question.Options = JsonConvert.SerializeObject(viewModel.Question.Options);
+
+                    _formRepository.Update(form);
+                    await _formRepository.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+            }
+            return View(model);
         }
 
         public async Task<IActionResult> Delete(int? formId, int? questionId)

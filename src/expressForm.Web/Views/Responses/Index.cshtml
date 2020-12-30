@@ -17,17 +17,18 @@
 
         </tr>
     </thead>
-    @foreach (var response in Model.Form.Responses)
-    {
-        <tbody>
+    <tbody>
+        @foreach (var response in Model.Form.Responses)
+        {
+
             <tr>
                 @foreach (var answer in response.Answers)
                 {
                     <td>@answer.Text</td>
                 }
             </tr>
-        </tbody>
-    }
+        }
+    </tbody>
 </table>
 
 

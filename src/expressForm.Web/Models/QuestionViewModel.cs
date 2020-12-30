@@ -9,6 +9,8 @@ namespace expressForm.Web.Models
         public int Id { get; set; }
         public QuestionTypeViewModel Type { get; set; }
 
+        [Required(ErrorMessage = "Question cannot be empty")]
+        [MaxLength(500, ErrorMessage = "Question cannot exceed 500 characters.")]
         [Display(Prompt = "Question")]
         public string Text { get; set; }
         public bool IsRequired { get; set; }
