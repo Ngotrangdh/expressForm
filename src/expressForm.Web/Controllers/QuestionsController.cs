@@ -97,17 +97,17 @@ namespace expressForm.Web.Controllers
                 return NotFound();
             }
 
+            question.Text = viewModel.Question.Text;
+            question.Type = viewModel.Question.Type.ToQuestionType();
+            question.IsRequired = viewModel.Question.IsRequired;
+            question.Options = JsonConvert.SerializeObject(viewModel.Question.Options);
+
             var model = new FormQuestionViewModel(form, question);
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    question.Text = viewModel.Question.Text;
-                    question.Type = viewModel.Question.Type.ToQuestionType();
-                    question.IsRequired = viewModel.Question.IsRequired;
-                    question.Options = JsonConvert.SerializeObject(viewModel.Question.Options);
-
                     _formRepository.Update(form);
                     await _formRepository.SaveChangesAsync();
                 }
