@@ -37,10 +37,10 @@ namespace expressForm.Web.Controllers
                 FormTitle = form.Title,
                 FormDescription = form.Description,
                 Answers = form.Questions
-                    .Select(q => new AnswerViewModel { Question = q.ToViewModel()})
+                    .Select(q => new AnswerViewModel { Question = q.ToViewModel() })
                     .ToList()
             };
-        
+
             return View(response);
         }
 
@@ -52,6 +52,8 @@ namespace expressForm.Web.Controllers
                 return NotFound();
             }
 
+            var request = HttpContext.Request;
+
             var form = await _formRepository.FindAsync(formId.Value);
 
             if (form == null)
@@ -59,22 +61,27 @@ namespace expressForm.Web.Controllers
                 return NotFound();
             }
 
-             var response = new Response
+            if (ModelState.IsValid)
             {
-                Answers = viewModel.Answers
-                    .Select(a => new Answer
-                    {
-                        Text = a.Text,
-                        Question = form.Questions.SingleOrDefault(q => q.Id == a.Question.Id)
-                    })
-                    .ToList(),
-                Form = form
-            };
+                var response = new Response
+                {
+                    Answers = viewModel.Answers
+                        .Select(a => new Answer
+                        {
+                            Text = a.Text,
+                            Question = form.Questions.SingleOrDefault(q => q.Id == a.Question.Id)
+                        })
+                        .ToList(),
+                    Form = form
+                };
 
-            form.Responses.Add(response);
-            _formRepository.Update(form);
-            await _formRepository.SaveChangesAsync();
-            return View("Success", form.ToViewModel());
+                form.Responses.Add(response);
+                _formRepository.Update(form);
+                await _formRepository.SaveChangesAsync();
+                return View("Success", form.ToViewModel());
+            }
+
+            return View(viewModel);
         }
 
         public async Task<IActionResult> View(Guid guid)

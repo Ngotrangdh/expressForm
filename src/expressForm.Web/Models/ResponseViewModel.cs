@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace expressForm.Web.Models
 {
+    [ModelBinder(BinderType = typeof(ResponseModelBinder))]
     public class ResponseViewModel
     {
         public string FormTitle { get; set; }

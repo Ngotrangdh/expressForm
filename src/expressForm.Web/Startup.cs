@@ -24,10 +24,15 @@ namespace expressForm.Web
             services.AddControllersWithViews();
             services.AddScoped<IFormRepository, FormRepository>();
             services.AddScoped<ApplicationDbContext>();
+            //services.AddMvc(options =>
+            //{
+            //    options.MaxValidationDepth = 2;
+            //});
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+
+            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -61,7 +66,7 @@ namespace expressForm.Web
                 endpoints.MapControllerRoute(
                     name: "view",
                     pattern: "View/{guid}",
-                    defaults: new {controller = "view", action = "view"}
+                    defaults: new { controller = "view", action = "view" }
                     );
             });
         }
