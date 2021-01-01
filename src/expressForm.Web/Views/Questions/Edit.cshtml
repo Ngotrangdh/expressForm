@@ -48,17 +48,17 @@
                             <input class="form-control" asp-for="@Model.Question.Text" />
                             <span asp-validation-for="@Model.Question.Text" class="text-danger"></span>
                         </div>
-                        @if (Model.HasOptions)
+                        @if (Model.Question.HasOptions)
                         {
                             <ul style="list-style-type: circle;">
-                                @foreach (string option in Model.Question.Options)
+                                @foreach (string option in Model.Question.SelectedOptions)
                                 {
                                     <li>
                                         <div class="input-group mb-3">
                                             <input class="form-control btn-light"
                                                    type="text"
-                                                   name="Question.Options"
                                                    placeholder="Option"
+                                                   name="Question.SelectedOptions"
                                                    value="@option"
                                                    autocomplete="off"
                                                    @(string.IsNullOrEmpty(option) ? "autofocus" : string.Empty) />

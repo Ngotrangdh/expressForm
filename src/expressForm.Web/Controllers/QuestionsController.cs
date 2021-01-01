@@ -84,11 +84,6 @@ namespace expressForm.Web.Controllers
                 return NotFound();
             }
 
-            // this logic should be moved to its own action
-            if (newOption.HasValue)
-            {
-                viewModel.Question.Options.Add(string.Empty);
-            }
 
             var question = form.Questions.SingleOrDefault(question => question.Id == questionId);
 
@@ -100,9 +95,15 @@ namespace expressForm.Web.Controllers
             question.Text = viewModel.Question.Text;
             question.Type = viewModel.Question.Type.ToQuestionType();
             question.IsRequired = viewModel.Question.IsRequired;
-            question.Options = JsonConvert.SerializeObject(viewModel.Question.Options);
+            question.Options = JsonConvert.SerializeObject(viewModel.Question.SelectedOptions);
 
             var model = new FormQuestionViewModel(form, question);
+
+            // this logic should be moved to its own action
+            if (newOption.HasValue)
+            {
+                model.Question.SelectedOptions.Add(string.Empty);
+            }
 
             if (ModelState.IsValid)
             {

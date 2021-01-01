@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body style="background-color: #e5f6fe;" >
+<body style="background-color: #e5f6fe;">
     <div class="container">
         <main role="main" class="py-5">
             <div class="row justify-content-center">
@@ -25,7 +25,6 @@
                                 <h5 class="card-title">@Model.FormTitle</h5>
                                 <p class="card-text">@Model.FormDescription</p>
                             </div>
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         </div>
                         @for (int i = 0; i < Model.Answers.Count; i++)
                         {
@@ -38,39 +37,52 @@
                                                 @(Model.Answers[i].Question.IsRequired ? "*" :string.Empty)
                                             </span>
                                         </label>
-                                        <span asp-validation-for="@Model.Answers[i].Text" class="text-danger"></span>
                                         <input type="hidden" asp-for="@Model.Answers[i].Question.Id" />
 
                                         @if (Model.Answers[i].Question.Type == QuestionTypeViewModel.ShortAnswer)
                                         {
-                                            <input asp-for="@Model.Answers[i].Text" class="form-control">
+                                            <input asp-for="@Model.Answers[i].Text[0]" class="form-control">
                                         }
                                         else if (Model.Answers[i].Question.Type == QuestionTypeViewModel.Paragraph)
                                         {
-                                            <textarea asp-for="@Model.Answers[i].Text" class="form-control" rows="3"></textarea>
+                                            <textarea asp-for="@Model.Answers[i].Text[0]" class="form-control" rows="3"></textarea>
                                         }
                                         else if (Model.Answers[i].Question.Type == QuestionTypeViewModel.Dropdown)
                                         {
                                             <select class="form-control"
-                                                    asp-for="@Model.Answers[i].Text"
-                                                    asp-items="@Model.Answers[i].Question.Options.Select(o => new SelectListItem { Text = o.ToString()})">
+                                                    asp-for="@Model.Answers[i].Text[0]"
+                                                    asp-items="@Model.Answers[i].Question.Options">
                                             </select>
                                         }
                                         else if (Model.Answers[i].Question.Type == QuestionTypeViewModel.Date)
                                         {
-                                            <input asp-for="@Model.Answers[i].Text" type="date" class="form-control">
+                                            <input asp-for="@Model.Answers[i].Text[0]" type="date" class="form-control">
                                         }
                                         else if (Model.Answers[i].Question.Type == QuestionTypeViewModel.Checkboxes)
                                         {
                                             @for (int j = 0; j < Model.Answers[i].Question.Options.Count; j++)
                                             {
+                                                var option = Model.Answers[i].Question.Options[j];
+
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox"
-                                                           asp-for="@Model.Answers[i].Text"
-                                                           id="Answers_@(i)_Text_@(j)_Checkboxes"
-                                                           value="@Model.Answers[i].Question.Options[j]">
-                                                    <label class="form-check-label" for="Answers_@(i)_Text_@(j)_Checkboxes">
-                                                        @Model.Answers[i].Question.Options[j]
+
+                                                    @if (option.Selected)
+                                                    {
+                                                        <input class="form-check-input" type="checkbox"
+                                                               name="Answers[@(i)].Text"
+                                                               id="Answers_@(i)__Text_@(j)"
+                                                               value="@option.Text" checked>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input class="form-check-input" type="checkbox"
+                                                               name="Answers[@(i)].Text"
+                                                               id="Answers_@(i)__Text_@(j)"
+                                                               value="@option.Text">
+                                                    }
+
+                                                    <label class="form-check-label" for="Answers_@(i)__Text_@(j)">
+                                                        @option.Text
                                                     </label>
                                                 </div>
                                             }
@@ -81,15 +93,17 @@
                                             {
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio"
-                                                           asp-for="@Model.Answers[i].Text"
+                                                           asp-for="@Model.Answers[i].Text[0]"
                                                            id="Answers_@(i)__Text_@(h)"
-                                                           value="@Model.Answers[i].Question.Options[h]">
+                                                           value="@Model.Answers[i].Question.Options[h].Text">
                                                     <label class="form-check-label" for="Answers_@(i)__Text_@(h)">
-                                                        @Model.Answers[i].Question.Options[h]
+                                                        @Model.Answers[i].Question.Options[h].Text
                                                     </label>
                                                 </div>
                                             }
                                         }
+                                        <span asp-validation-for="@Model.Answers[i].Text" class="text-danger"></span>
+
                                     </div>
                                 </div>
                             </div>

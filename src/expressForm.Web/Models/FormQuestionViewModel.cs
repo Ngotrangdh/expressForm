@@ -23,7 +23,7 @@ namespace expressForm.Web.Models
         public IEnumerable<QuestionViewModel> Questions { get; set; }
         public FormViewModel Form { get; set; }
         public QuestionViewModel Question { get; set; }
-        public bool HasOptions => ((Question==null)?false: _hasOptionTypes.Contains(Question.Type));
+        public bool HasOptions => Question!=null && _hasOptionTypes.Contains(Question.Type);
 
         private static readonly HashSet<QuestionTypeViewModel> _hasOptionTypes = new HashSet<QuestionTypeViewModel>
         {
