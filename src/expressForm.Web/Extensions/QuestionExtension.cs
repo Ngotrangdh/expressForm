@@ -12,7 +12,10 @@ namespace expressForm.Web.Extensions
         public static QuestionViewModel ToViewModel(this Question question)
         {
             var options = JsonConvert.DeserializeObject<List<string>>(question.Options ?? string.Empty) ?? new List<string>();
-
+            if (options.Count == 0)
+            {
+                options.Add(string.Empty);
+            }
             return new QuestionViewModel
             {
                 Id = question.Id,

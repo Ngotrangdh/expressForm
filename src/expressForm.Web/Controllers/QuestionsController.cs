@@ -95,7 +95,7 @@ namespace expressForm.Web.Controllers
             question.Text = viewModel.Question.Text;
             question.Type = viewModel.Question.Type.ToQuestionType();
             question.IsRequired = viewModel.Question.IsRequired;
-            question.Options = JsonConvert.SerializeObject(viewModel.Question.SelectedOptions);
+            question.Options = JsonConvert.SerializeObject(viewModel.Question.SelectedOptions.Where(option => !string.IsNullOrEmpty(option)).ToList());
 
             var model = new FormQuestionViewModel(form, question);
 

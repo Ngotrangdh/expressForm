@@ -92,7 +92,7 @@ namespace expressForm.Web.Controllers
                     Answers = viewModel.Answers
                         .Select(a => new Answer
                         {
-                            Text = string.Join(",", a.Text),
+                            Text = string.Join(",", a.Text ?? new List<string>()),
                             Question = form.Questions.SingleOrDefault(q => q.Id == a.Question.Id)
                         })
                         .ToList(),
