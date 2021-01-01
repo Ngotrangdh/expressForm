@@ -24,5 +24,21 @@ namespace expressForm.Infrastructure
         {
             optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Form>()
+                .Property(f => f.CreatedDate)
+                .HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<Form>()
+                .Property(f => f.UpdatedDate)
+                .HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<Form>()
+                .Property(f => f.Guid)
+                .HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<Response>()
+                .Property(r => r.CreatedDate)
+                .HasDefaultValueSql("GETDATE()");
+        }
     }
 }

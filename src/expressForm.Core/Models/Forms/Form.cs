@@ -1,6 +1,7 @@
 ﻿using expressForm.Core.Models.Forms;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace expressForm.Core.Models.Forms
 {

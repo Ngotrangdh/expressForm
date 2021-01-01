@@ -43,7 +43,7 @@ namespace expressForm.Web.Controllers
                     Title = viewModel.Title, 
                     Description = viewModel.Description.ToStringOrEmpty(), 
                     Questions = new List<Question>(), 
-                    Guid = Guid.NewGuid() 
+                    //Guid = Guid.NewGuid() 
                 };
                 _repository.Add(form);
                 await _repository.SaveChangesAsync();

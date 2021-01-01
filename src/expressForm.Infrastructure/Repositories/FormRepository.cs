@@ -47,6 +47,7 @@ namespace expressForm.Infrastructure.Repositories
 
         public Form Update(Form form)
         {
+            form.UpdatedDate = DateTime.Now;
             return _context.Update(form).Entity;
         }
 
